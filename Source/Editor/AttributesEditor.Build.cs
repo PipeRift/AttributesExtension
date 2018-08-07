@@ -7,14 +7,6 @@ public class AttributesEditor : ModuleRules
 	public AttributesEditor(ReadOnlyTargetRules TargetRules) : base(TargetRules)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		
-		PublicIncludePaths.AddRange(new string[] {
-			"Editor/Public"
-		});
-
-		PrivateIncludePaths.AddRange(new string[] {
-			"Editor/Private"
-		});
 
 		PublicDependencyModuleNames.AddRange(new string[] {
 			"Core",
@@ -38,7 +30,6 @@ public class AttributesEditor : ModuleRules
 			"ContentBrowser",
 			"Settings",
 			"Attributes"
-			// ... add private dependencies that you statically link with here ...
 		});
 	}
 }
