@@ -2,8 +2,7 @@
 
 #pragma once
 
-#include "SlateBasics.h"
-#include "SComboBox.h"
+#include "Widgets/Input/SComboBox.h"
 #include "SGraphPin.h"
 
 

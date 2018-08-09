@@ -1,7 +1,6 @@
 #pragma once
 
-#include "SlateBasics.h"
-#include "StringEnumPin.h"
+#include "Customizations/StringEnumPin.h"
 
 
 class SAttrCategoryPin : public SStringEnumPin

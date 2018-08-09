@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Piperift. All Rights Reserved.
 
-#include "AttrCategoryCustomization.h"
+#include "Customizations/AttrCategoryCustomization.h"
 
 #include "AttributesModule.h"
 

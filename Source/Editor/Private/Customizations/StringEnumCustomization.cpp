@@ -1,6 +1,6 @@
 // Copyright 2015-2018 Piperift. All Rights Reserved.
 
-#include "StringEnumCustomization.h"
+#include "Customizations/StringEnumCustomization.h"
 
 
 #define LOCTEXT_NAMESPACE "FStringEnumCustomization"

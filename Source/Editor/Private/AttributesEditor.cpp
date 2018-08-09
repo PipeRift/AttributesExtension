@@ -3,9 +3,9 @@
 #include "AttributesEditor.h"
 #include <AssetToolsModule.h>
 
-#include "FloatAttrCustomization.h"
-#include "AttrCategoryCustomization.h"
-#include "AttrCategoryPinFactory.h"
+#include "Customizations/FloatAttrCustomization.h"
+#include "Customizations/AttrCategoryCustomization.h"
+#include "Customizations/AttrCategoryPinFactory.h"
 
 
 #define LOCTEXT_NAMESPACE "AttributesEditor"

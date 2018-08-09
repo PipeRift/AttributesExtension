@@ -2,8 +2,7 @@
 
 #pragma once
 
-#include "Object.h"
-
+#include <CoreMinimal.h>
 #include <Engine/World.h>
 
 #include "AttributesSettings.generated.h"

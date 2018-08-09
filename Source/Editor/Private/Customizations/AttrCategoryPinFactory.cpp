@@ -1,7 +1,8 @@
 // Copyright 2015-2018 Piperift. All Rights Reserved.
 
-#include "AttrCategoryPinFactory.h"
+#include "Customizations/AttrCategoryPinFactory.h"
 
+#include "Customizations/AttrCategoryPin.h"
 
 TSharedPtr<class SGraphPin> FAttrCategoryPinFactory::CreatePin(class UEdGraphPin* InPin) const
 {
