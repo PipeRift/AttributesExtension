@@ -71,7 +71,7 @@ bool FFloatAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCatego
 		if (Index != INDEX_NONE)
 		{
 			FAttributeCategoryMods& CategoryMod = CategoryMods[Index];
-			bChanged = CategoryMod.Modifiers.Remove(Modifier);
+			bChanged = CategoryMod.Modifiers.Remove(Modifier) > 0;
 
 			if (CategoryMod.Modifiers.Num() <= 0)
 			{
