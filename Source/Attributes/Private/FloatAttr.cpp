@@ -43,19 +43,19 @@ bool FFloatAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCatego
 		// Remove possible modifiers from all categories
 		bChanged = BaseModifiers.Remove(Modifier) > 0;
 
-		for (int32 Id = 0; Id < CategoryMods.Num(); ++Id)
+		for (int32 CatId = 0; CatId < CategoryMods.Num(); ++CatId)
 		{
-			FAttributeCategoryMods& CategoryMod = CategoryMods[Id];
+			FAttributeCategoryMods& CategoryMod = CategoryMods[CatId];
 
 			bChanged = CategoryMod.Modifiers.Remove(Modifier) > 0 || bChanged;
 
 			if (CategoryMod.Modifiers.Num() <= 0)
 			{
 				// Remove category if empty
-				CategoryMods.HeapRemoveAt(Id);
+				CategoryMods.HeapRemoveAt(CatId);
 
 				//Reduce Id, because current one doesn't exist anymore
-				--Id;
+				--CatId;
 			}
 		}
 	}
