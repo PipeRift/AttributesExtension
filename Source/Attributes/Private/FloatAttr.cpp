@@ -31,22 +31,47 @@ void FFloatAttr::AddModifier(const FAttrModifier& Modifier, const FAttrCategory&
 	}
 
 	RefreshValue();
-	OnModified.ExecuteIfBound(EAttributeOperation::AO_Add, Modifier);
+	OnModified.Broadcast(EAttributeOperation::AO_Add, Modifier, Category);
 }
 
-void FFloatAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category)
+bool FFloatAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category, bool bRemoveFromAllCategories)
 {
-	if (Category == FAttrCategory::NoCategory)
+	bool bChanged = false;
+
+	if (bRemoveFromAllCategories)
 	{
-		BaseModifiers.Remove(Modifier);
+		// Remove possible modifiers from all categories
+		bChanged = BaseModifiers.Remove(Modifier) > 0;
+
+		for (int32 Id = 0; Id < CategoryMods.Num(); ++Id)
+		{
+			FAttributeCategoryMods& CategoryMod = CategoryMods[Id];
+
+			bChanged = CategoryMod.Modifiers.Remove(Modifier) > 0 || bChanged;
+
+			if (CategoryMod.Modifiers.Num() <= 0)
+			{
+				// Remove category if empty
+				CategoryMods.HeapRemoveAt(Id);
+
+				//Reduce Id, because current one doesn't exist anymore
+				--Id;
+			}
+		}
+	}
+	else if (Category == FAttrCategory::NoCategory)
+	{
+		// Remove modifier from base modifiers
+		bChanged = BaseModifiers.Remove(Modifier) > 0;
 	}
 	else
 	{
+		// Remove modifier from a category
 		int32 Index = CategoryMods.IndexOfByKey(Category);
 		if (Index != INDEX_NONE)
 		{
 			FAttributeCategoryMods& CategoryMod = CategoryMods[Index];
-			CategoryMod.Modifiers.Remove(Modifier);
+			bChanged = CategoryMod.Modifiers.Remove(Modifier);
 
 			if (CategoryMod.Modifiers.Num() <= 0)
 			{
@@ -57,15 +82,19 @@ void FFloatAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCatego
 		else
 		{
 			UE_LOG(LogAttributes, Warning, TEXT("Attributes: Tried to remove with modifier category '%s', but it doesnt exist on the attribute"), *Category.Name.ToString());
-			return;
+			return false;
 		}
 	}
 
-	RefreshValue();
-	OnModified.ExecuteIfBound(EAttributeOperation::AO_Remove, Modifier);
+	if (bChanged)
+	{
+		RefreshValue();
+		OnModified.Broadcast(EAttributeOperation::AO_Remove, Modifier, Category);
+	}
+	return bChanged;
 }
 
-const TArray<FAttrModifier>& FFloatAttr::GetModifiers(const FAttrCategory& Category)
+const TArray<FAttrModifier>& FFloatAttr::GetModifiers(const FAttrCategory& Category) const
 {
 	int32 Index = CategoryMods.IndexOfByKey(Category);
 	if (Index != INDEX_NONE)
@@ -75,17 +104,45 @@ const TArray<FAttrModifier>& FFloatAttr::GetModifiers(const FAttrCategory& Categ
 	return BaseModifiers;
 }
 
+void FFloatAttr::CleanCategoryModifiers(const FAttrCategory& Category)
+{
+	if (Category.IsNone())
+	{
+		BaseModifiers.Empty();
+	}
+	else
+	{
+		int32 Index = CategoryMods.IndexOfByKey(Category);
+		if (Index != INDEX_NONE)
+		{
+			// Remove category if empty
+			CategoryMods.HeapRemoveAt(Index);
+		}
+		else
+		{
+			UE_LOG(LogAttributes, Warning, TEXT("Attributes: Tried to remove all modifiers of category '%s', but it didnt exist on the attribute"), *Category.Name.ToString());
+			return;
+		}
+	}
+
+	RefreshValue();
+	OnModified.Broadcast(EAttributeOperation::AO_RemoveCategory, {}, Category);
+}
+
 void FFloatAttr::CleanModifiers()
 {
 	BaseModifiers.Empty();
 	CategoryMods.Empty();
+
+	RefreshValue();
+	OnModified.Broadcast(EAttributeOperation::AO_RemoveAll, {}, FAttrCategory::NoCategory);
 }
 
 void FFloatAttr::RefreshValue()
 {
 	Value = BaseValue;
 
-	for (auto& Mod : BaseModifiers)
+	for (const auto& Mod : BaseModifiers)
 	{
 		Mod.Apply(*this, Value);
 	}
@@ -96,6 +153,17 @@ void FFloatAttr::RefreshValue()
 		{
 			Mod.Apply(*this, Value);
 		}
+	}
+}
+
+void FFloatAttr::SetBaseValue(float NewValue)
+{
+	if (NewValue != BaseValue)
+	{
+		BaseValue = NewValue;
+
+		RefreshValue();
+		OnModified.Broadcast(EAttributeOperation::AO_Base, {}, FAttrCategory::NoCategory);
 	}
 }
 

@@ -17,27 +17,30 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 {
 	GENERATED_BODY()
 
-	// Compare two Attributes by Id
-	UFUNCTION(BlueprintPure, Category = "Attributes")
+
+	/** @return true when two Attributes are the same */
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "=="))
 	static FORCEINLINE bool Is(UPARAM(ref) FFloatAttr& A, UPARAM(ref) FFloatAttr& B) { return A == B; }
 
-	// Compare two Attributes by Base Value
-	UFUNCTION(BlueprintPure, Category = "Attributes")
+	/** @return true when two Attributes are not the same */
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "!="))
+	static FORCEINLINE bool IsNot(UPARAM(ref) FFloatAttr& A, UPARAM(ref) FFloatAttr& B) { return A != B; }
+
+	/** @return true if two atributes have the same base value */
+	UFUNCTION(BlueprintPure, Category = Attributes)
 	static FORCEINLINE bool Equals(UPARAM(ref) FFloatAttr& A, UPARAM(ref) FFloatAttr& B)
-	{
-		return A.GetBaseValue() == B.GetBaseValue();
-	}
+	{ return A.GetBaseValue() == B.GetBaseValue(); }
 
 	/**
 	* Get the final value of an attribute
 	* @param Attribute to get value from
 	* @return the final value
 	*/
-	UFUNCTION(BlueprintPure, Category = "Attributes", meta = (Keywords = "get value float total final"))
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (Keywords = "get value float total final"))
 	static FORCEINLINE float GetValue(const FFloatAttr& Attribute) { return Attribute.GetValue(); }
 
 	// Get final value
-	UFUNCTION(BlueprintPure, Category = "Attributes", meta = (DisplayName = "To Float", CompactNodeTitle = "->", Keywords = "get value float", BlueprintAutocast))
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "To Float", CompactNodeTitle = "->", Keywords = "get value float", BlueprintAutocast))
 	static FORCEINLINE float Conv_AttributeToFloat(const FFloatAttr& Attribute) { return GetValue(Attribute); }
 
 	/**
@@ -45,7 +48,7 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	 * @param Attribute to get base value from
 	 * @return the base value
 	 */
-	UFUNCTION(BlueprintPure, Category = "Attributes")
+	UFUNCTION(BlueprintPure, Category = Attributes)
 	static FORCEINLINE float GetBase(const FFloatAttr& Attribute) { return Attribute.GetBaseValue(); }
 
 	/**
@@ -56,27 +59,67 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	UFUNCTION(BlueprintCallable, Category = Attributes)
 	static void SetBase(UPARAM(ref) FFloatAttr & Attribute, float Value) { Attribute.SetBaseValue(Value); }
 
-	UFUNCTION(BlueprintCallable, meta = (AdvancedDisplay = "Category"))
+	/**
+	 * Adds a modifier to an attribute
+	 * @param Attribute to be modified
+	 * @param Modifier to apply to the attribute
+	 * @param Category of the modifier (Optional)
+	 */
+	UFUNCTION(BlueprintCallable, Category = Attributes, meta = (AdvancedDisplay = "Category"))
 	static void AddModifier(UPARAM(ref) FFloatAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category)
 	{
 		Attribute.AddModifier(Modifier, Category);
 	}
 
-	UFUNCTION(BlueprintCallable, meta=(AdvancedDisplay="Category"))
-	static void RemoveModifier(UPARAM(ref) FFloatAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category)
+	/**
+	* Removes a modifier from an attribute
+	* @param Attribute to be modified
+	* @param Modifier to remove from the attribute
+	* @param Category of the modifier (Optional)
+	* @return true if any modifier was removed
+	*/
+	UFUNCTION(BlueprintCallable, Category = Attributes, meta=(AdvancedDisplay="Category,bRemoveFromAllCategories"))
+	static bool RemoveModifier(UPARAM(ref) FFloatAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category, bool bRemoveFromAllCategories = false)
 	{
-		Attribute.RemoveModifier(Modifier, Category);
+		return Attribute.RemoveModifier(Modifier, Category, bRemoveFromAllCategories);
 	}
 
+	/**
+	* Get all modifiers of a category, base mods will be returned if category is None
+	* @param Attribute to get modifiers from
+	* @return Modifiers of a category as an Array
+	*/
 	UFUNCTION(BlueprintPure, Category = Attributes)
-	static FORCEINLINE TArray<FAttrModifier> GetModifiers(UPARAM(ref) FFloatAttr& Attribute)
+	static FORCEINLINE TArray<FAttrModifier> GetModifiers(const FFloatAttr& Attribute)
 	{
 		return Attribute.GetModifiers();
 	}
 
+	/**
+	* Remove all modifiers of an attribute
+	* @param Attribute to clean
+	*/
 	UFUNCTION(BlueprintCallable, Category = Attributes)
 	static void CleanModifiers(UPARAM(ref) FFloatAttr& Attribute)
 	{
 		return Attribute.CleanModifiers();
+	}
+
+	UFUNCTION(BlueprintCallable, Category = Attributes, meta = (AdvancedDisplay = "Category"))
+	static void CleanCategoryModifiers(UPARAM(ref) FFloatAttr& Attribute, const FAttrCategory Category)
+	{
+		Attribute.CleanCategoryModifiers(Category);
+	}
+
+	UFUNCTION(BlueprintCallable, Category = Attributes, meta = (AdvancedDisplay = "Category"))
+	static void BindOnModified(UPARAM(ref) FFloatAttr& Attribute, const FAttributeModifiedDelegate& Event)
+	{
+		Attribute.OnModified.AddUnique(Event);
+	}
+
+	UFUNCTION(BlueprintCallable, Category = Attributes, meta = (AdvancedDisplay = "Category"))
+	static void UnbindOnModified(UPARAM(ref) FFloatAttr& Attribute, const FAttributeModifiedDelegate& Event)
+	{
+		Attribute.OnModified.Remove(Event);
 	}
 };

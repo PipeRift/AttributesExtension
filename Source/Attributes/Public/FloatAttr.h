@@ -14,11 +14,15 @@ enum class EAttributeOperation : uint8
 {
 	AO_None       UMETA(DisplayName = "None"),
 	AO_Add        UMETA(DisplayName = "Add"),
-	AO_Remove     UMETA(DisplayName = "Remove")
+	AO_Remove     UMETA(DisplayName = "Remove"),
+	AO_RemoveAll  UMETA(DisplayName = "Remove All"),
+	AO_RemoveCategory  UMETA(DisplayName = "Remove Category"),
+	AO_Base       UMETA(DisplayName = "Base Changed")
 };
 
 
-DECLARE_DYNAMIC_DELEGATE_TwoParams(FModifiedDelegate, const EAttributeOperation, Operation, const FAttrModifier&, Modifier);
+DECLARE_DYNAMIC_DELEGATE_ThreeParams(FAttributeModifiedDelegate, const EAttributeOperation, Operation, const FAttrModifier&, Modifier, const FAttrCategory&, Category);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttributeModifiedMCDelegate, const EAttributeOperation, Operation, const FAttrModifier&, Modifier, const FAttrCategory&, Category);
 
 
 /**
@@ -63,21 +67,22 @@ private:
 public:
 
 	UPROPERTY()
-	FModifiedDelegate OnModified;
+	FAttributeModifiedMCDelegate OnModified;
 
 
 	void AddModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory);
-	void RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory);
+	bool RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory, bool bRemoveFromAllCategories = false);
 
-	const TArray<FAttrModifier>& GetModifiers(const FAttrCategory& Category = FAttrCategory::NoCategory);
+	const TArray<FAttrModifier>& GetModifiers(const FAttrCategory& Category = FAttrCategory::NoCategory) const;
+	void CleanCategoryModifiers(const FAttrCategory& Category);
 	void CleanModifiers();
+
+	void SetBaseValue(float NewValue);
+	float GetBaseValue() const { return BaseValue; }
+	float GetValue() const { return Value; }
 
 	void RefreshValue();
 
-
-	void SetBaseValue(float NewValue) { BaseValue = NewValue; RefreshValue(); }
-	float GetBaseValue() const { return BaseValue; }
-	float GetValue() const { return Value; }
 
 	/* Get Attribute final value */
 	FORCEINLINE operator float() const { return GetValue(); }
