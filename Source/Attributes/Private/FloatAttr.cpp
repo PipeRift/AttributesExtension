@@ -156,12 +156,6 @@ void FFloatAttr::RefreshValue()
 	}
 }
 
-void FFloatAttr::PostSerialize(const FArchive & Ar)
-{
-	if (Ar.IsSaving())
-		RefreshValue();
-}
-
 void FFloatAttr::SetBaseValue(float NewValue)
 {
 	if (NewValue != BaseValue)
@@ -173,14 +167,8 @@ void FFloatAttr::SetBaseValue(float NewValue)
 	}
 }
 
-bool FFloatAttr::ImportTextItem(const TCHAR*& Buffer, int32 PortFlags, UObject* Parent, FOutputDevice* ErrorText)
+void FFloatAttr::PostSerialize(const FArchive & Ar)
 {
-	// Call default import, but skip the native callback to avoid recursion
-	Buffer = FFloatAttr::StaticStruct()->ImportText(Buffer, this, Parent, PortFlags, ErrorText, TEXT("FFloatAttr"), false);
-
-	if (Buffer)
-	{
+	if (Ar.IsSaving())
 		RefreshValue();
-	}
-	return true;
 }
