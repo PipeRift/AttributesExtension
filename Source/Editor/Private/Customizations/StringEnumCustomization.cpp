@@ -2,7 +2,6 @@
 
 #include "Customizations/StringEnumCustomization.h"
 
-
 #define LOCTEXT_NAMESPACE "FStringEnumCustomization"
 
 void FStringEnumCustomization::CustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle, class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
