@@ -98,14 +98,7 @@ public:
 
 	FORCEINLINE float operator-(const FFloatAttr& Other) const { return *this - Other.GetValue(); }
 
-
-	void PostScriptConstruct() {
-		RefreshValue();
-	}
-
-	/** Handles fix-up after importing from text */
-	bool ImportTextItem(const TCHAR*& Buffer, int32 PortFlags, UObject* Parent, FOutputDevice* ErrorText);
-
+	void PostSerialize(const FArchive& Ar);
 
 private:
 
@@ -117,7 +110,6 @@ struct TStructOpsTypeTraits<FFloatAttr> : public TStructOpsTypeTraitsBase2<FFloa
 {
 	enum
 	{
-		WithImportTextItem = true,
-		WithPostScriptConstruct = true,
+		WithPostSerialize = true
 	};
 };

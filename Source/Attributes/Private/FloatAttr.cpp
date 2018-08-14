@@ -156,6 +156,12 @@ void FFloatAttr::RefreshValue()
 	}
 }
 
+void FFloatAttr::PostSerialize(const FArchive & Ar)
+{
+	if (Ar.IsSaving())
+		RefreshValue();
+}
+
 void FFloatAttr::SetBaseValue(float NewValue)
 {
 	if (NewValue != BaseValue)
