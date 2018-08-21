@@ -1,2 +1,2 @@
-# JinkCore
-An Unreal Engine 4 plugin that adds game-focused features and improvements to the engine.
+# Attributes Extension
+Attributes Extension is a lightweight plugin that adds a very **intuitive, easy and flexible attribute system** to UE4. This can be very easily integrated into game systems like buffs, areas, spells, abilities, or any other kind of gameplay mechanic.
