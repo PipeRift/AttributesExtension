@@ -48,6 +48,17 @@ public:
 
 	void Apply(const FFloatAttr& Attribute, float& ActualValue) const;
 
+
+	/** Stack other modifiers values into this mod.
+	 * Now applying this modifier will be equivalent to applying all the others at the same time
+	 */
+	void StackMods(const TArray<FAttrModifier>& OtherMods);
+
+	/** Stack other modifier's values into this mod.
+	 * Applying this mod will be equivalent to applying both
+	 */
+	void StackMod(const FAttrModifier& OtherMod);
+
 	//compare two modifications by guid
 	FORCEINLINE bool operator==(const FAttrModifier& Other) const
 	{

@@ -79,7 +79,7 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	* @return true if any modifier was removed
 	*/
 	UFUNCTION(BlueprintCallable, Category = Attributes, meta=(AdvancedDisplay="Category,bRemoveFromAllCategories"))
-	static bool RemoveModifier(UPARAM(ref) FFloatAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category, bool bRemoveFromAllCategories = false)
+	static FORCEINLINE bool RemoveModifier(UPARAM(ref) FFloatAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category, bool bRemoveFromAllCategories = false)
 	{
 		return Attribute.RemoveModifier(Modifier, Category, bRemoveFromAllCategories);
 	}
@@ -89,10 +89,21 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	* @param Attribute to get modifiers from
 	* @return Modifiers of a category as an Array
 	*/
-	UFUNCTION(BlueprintPure, Category = Attributes)
-	static FORCEINLINE TArray<FAttrModifier> GetModifiers(const FFloatAttr& Attribute)
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (AdvancedDisplay = "Category"))
+	static void GetModifiers(const FFloatAttr& Attribute, const FAttrCategory Category, TArray<FAttrModifier>& Modifiers)
 	{
-		return Attribute.GetModifiers();
+		Modifiers = Attribute.GetModifiers(Category);
+	}
+
+	/**
+	* Get all categories where the attribute has any modifiers
+	* @param Attribute to get categories from
+	* @return Categories of an attribute as an Array
+	*/
+	UFUNCTION(BlueprintPure, Category = Attributes)
+	static void GetModifiedCategories(const FFloatAttr& Attribute, TArray<FAttrCategory>& Categories)
+	{
+		Attribute.GetModifiedCategories(Categories);
 	}
 
 	/**
@@ -121,5 +132,28 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	static void UnbindOnModified(UPARAM(ref) FFloatAttr& Attribute, const FAttributeModifiedDelegate& Event)
 	{
 		Attribute.OnModified.Remove(Event);
+	}
+
+
+	/** Stack other modifiers values into this mod.
+	 * Now applying this modifier will be equivalent to applying all the others at the same time
+	 * @param Mods to be stacked together as one
+	 * @return the resulting stacked mod
+	 */
+	UFUNCTION(BlueprintPure, Category = "Attributes|Modifiers")
+	static FORCEINLINE FAttrModifier StackMods(const TArray<FAttrModifier>& Mods) {
+		FAttrModifier ResultMod{};
+		ResultMod.StackMods(Mods);
+		return MoveTemp(ResultMod);
+	}
+
+	/** Stack other modifier's values into target mod.
+	 * Applying this mod will be equivalent to applying both
+	 * @param TargetMod to be modified
+	 * @param OtherMod to be stacked into TargetMod
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Attributes|Modifiers")
+	static void StackMod(UPARAM(ref) FAttrModifier& TargetMod, const FAttrModifier& OtherMod) {
+		TargetMod.StackMod(OtherMod);
 	}
 };

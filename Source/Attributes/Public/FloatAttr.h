@@ -72,8 +72,18 @@ public:
 
 	void AddModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory);
 	bool RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory, bool bRemoveFromAllCategories = false);
+	
+	/**
+	* Get all modifiers of a category, base mods will be returned if category is None
+	* @return Modifiers of a category as an Array
+	*/
+	const TArray<FAttrModifier>& GetModifiers(const FAttrCategory Category = FAttrCategory::NoCategory) const;
 
-	const TArray<FAttrModifier>& GetModifiers(const FAttrCategory& Category = FAttrCategory::NoCategory) const;
+	/**
+	* Get all categories where the attribute has any modifiers
+	* @return Categories of an attribute as an Array
+	*/
+	void GetModifiedCategories(TArray<FAttrCategory>& OutCategories) const;
 	void CleanCategoryModifiers(const FAttrCategory& Category);
 	void CleanModifiers();
 

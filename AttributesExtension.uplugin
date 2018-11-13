@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
-	"Version": 1,
-	"VersionName": "1.0",
+	"Version": 2,
+	"VersionName": "1.1",
 	"FriendlyName": "Attributes Extension",
 	"Description": "A lightweight attributes system for Unreal Engine 4",
 	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/1f0ba37099a14e228a1ce5e4891ed70a",
@@ -10,7 +10,7 @@
 	"CreatedByURL": "http://piperift.com/",
 	"DocsURL": "https://piperift.com/AttributesExtension/",
 	"SupportURL": "info@piperift.com",
-    "EngineVersion": "4.20.0",
+    "EngineVersion": "4.21.0",
 	"CanContainContent":  false,
 	"IsBetaVersion": false,
 	"Modules": [

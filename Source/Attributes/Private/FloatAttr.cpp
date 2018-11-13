@@ -94,7 +94,7 @@ bool FFloatAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCatego
 	return bChanged;
 }
 
-const TArray<FAttrModifier>& FFloatAttr::GetModifiers(const FAttrCategory& Category) const
+const TArray<FAttrModifier>& FFloatAttr::GetModifiers(const FAttrCategory Category) const
 {
 	int32 Index = CategoryMods.IndexOfByKey(Category);
 	if (Index != INDEX_NONE)
@@ -102,6 +102,24 @@ const TArray<FAttrModifier>& FFloatAttr::GetModifiers(const FAttrCategory& Categ
 		return CategoryMods[Index].Modifiers;
 	}
 	return BaseModifiers;
+}
+
+void FFloatAttr::GetModifiedCategories(TArray<FAttrCategory>& OutCategories) const
+{
+	if (BaseModifiers.Num() > 0)
+	{
+		OutCategories.Reserve(CategoryMods.Num() + 1);
+		OutCategories.Add(FAttrCategory::NoCategory);
+	}
+	else
+	{
+		OutCategories.Reserve(CategoryMods.Num());
+	}
+
+	for (const auto& CategoryMod : CategoryMods)
+	{
+		OutCategories.Add(CategoryMod.Category);
+	}
 }
 
 void FFloatAttr::CleanCategoryModifiers(const FAttrCategory& Category)

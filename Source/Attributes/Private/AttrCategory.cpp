@@ -5,7 +5,7 @@
 #include "AttributesModule.h"
 
 
-const FAttrCategory FAttrCategory::NoCategory(NO_ATTRCATEGORY_NAME);
+const FAttrCategory FAttrCategory::NoCategory{ NO_ATTRCATEGORY_NAME };
 
 bool FAttrCategory::IsNone() const
 {
