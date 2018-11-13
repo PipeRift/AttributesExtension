@@ -1,10 +1,12 @@
 // Copyright 2015-2018 Piperift. All Rights Reserved.
 
 #include "Customizations/StringEnumCustomization.h"
+#include <PropertyHandle.h>
+#include <DetailWidgetRow.h>
 
 #define LOCTEXT_NAMESPACE "FStringEnumCustomization"
 
-void FStringEnumCustomization::CustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle, class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
+void FStringEnumCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> StructPropertyHandle, FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
 {
 	if (CanCustomizeHeader(StructPropertyHandle, HeaderRow, StructCustomizationUtils))
 	{
