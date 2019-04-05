@@ -35,13 +35,13 @@ struct ATTRIBUTES_API FFloatAttr
 	GENERATED_BODY()
 
 	/** Using an static counter for Ids.
-	 * Reduces Id from 16 to 4 bytes.
-	 * If you need more, change ids to 64
-	 */
+		* Reduces Id from 16 to 4 bytes.
+		* If you need more, change ids to 64
+		*/
 	FFloatAttr(float BaseValue = 0.f)
 		: BaseValue{ BaseValue }
-		, Value { BaseValue }
-		, Id(IdCount++)
+		, Id{ IdCount++ }
+		, Value(BaseValue)
 	{}
 
 
@@ -72,7 +72,7 @@ public:
 
 	void AddModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory);
 	bool RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory, bool bRemoveFromAllCategories = false);
-	
+
 	/**
 	* Get all modifiers of a category, base mods will be returned if category is None
 	* @return Modifiers of a category as an Array

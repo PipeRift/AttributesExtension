@@ -15,17 +15,17 @@ struct ATTRIBUTES_API FAttrModifier
 	GENERATED_BODY()
 
 	FAttrModifier()
-		: BasePercentageIncrement(0)
+		: Guid(FGuid::NewGuid())
+		, BasePercentageIncrement(0)
 		, PercentageIncrement(0)
 		, ScalarIncrement(0)
-		, Guid(FGuid::NewGuid())
 	{}
 
 	FAttrModifier(float BasePercentageIncrement, float PercentageIncrement = 0, float ScalarIncrement = 0)
-		: BasePercentageIncrement(BasePercentageIncrement)
+		: Guid(FGuid::NewGuid())
+		, BasePercentageIncrement(BasePercentageIncrement)
 		, PercentageIncrement(PercentageIncrement)
 		, ScalarIncrement(ScalarIncrement)
-		, Guid(FGuid::NewGuid())
 	{}
 
 public:
