@@ -2,18 +2,18 @@
 
 #pragma once
 
-#include "Kismet/BlueprintFunctionLibrary.h"
+#include <CoreMinimal.h>
+#include <Kismet/BlueprintFunctionLibrary.h>
 
-#include "GameFramework/Actor.h"
 #include "FloatAttr.h"
 
-#include "AttributesFunctionLibrary.generated.h"
+#include "FloatAttributesLibrary.generated.h"
 
 /**
  *
  */
 UCLASS()
-class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibrary
+class ATTRIBUTES_API UFloatAttributesLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
@@ -26,16 +26,18 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "!="))
 	static FORCEINLINE bool IsNot(UPARAM(ref) FFloatAttr& A, UPARAM(ref) FFloatAttr& B) { return A != B; }
 
-	/** @return true if two atributes have the same base value */
+	/** @return true if two attributes have the same base value */
 	UFUNCTION(BlueprintPure, Category = Attributes)
 	static FORCEINLINE bool Equals(UPARAM(ref) FFloatAttr& A, UPARAM(ref) FFloatAttr& B)
-	{ return A.GetBaseValue() == B.GetBaseValue(); }
+	{
+		return A.GetBaseValue() == B.GetBaseValue();
+	}
 
 	/**
-	* Get the final value of an attribute
-	* @param Attribute to get value from
-	* @return the final value
-	*/
+	 * Get the final value of an attribute
+	 * @param Attribute to get value from
+	 * @return the final value
+	 */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (Keywords = "get value float total final"))
 	static FORCEINLINE float GetValue(const FFloatAttr& Attribute) { return Attribute.GetValue(); }
 
@@ -72,12 +74,12 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	}
 
 	/**
-	* Removes a modifier from an attribute
-	* @param Attribute to be modified
-	* @param Modifier to remove from the attribute
-	* @param Category of the modifier (Optional)
-	* @return true if any modifier was removed
-	*/
+	 * Removes a modifier from an attribute
+	 * @param Attribute to be modified
+	 * @param Modifier to remove from the attribute
+	 * @param Category of the modifier (Optional)
+	 * @return true if any modifier was removed
+	 */
 	UFUNCTION(BlueprintCallable, Category = Attributes, meta=(AdvancedDisplay="Category,bRemoveFromAllCategories"))
 	static FORCEINLINE bool RemoveModifier(UPARAM(ref) FFloatAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category, bool bRemoveFromAllCategories = false)
 	{
@@ -85,10 +87,10 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	}
 
 	/**
-	* Get all modifiers of a category, base mods will be returned if category is None
-	* @param Attribute to get modifiers from
-	* @return Modifiers of a category as an Array
-	*/
+	 * Get all modifiers of a category, base mods will be returned if category is None
+	 * @param Attribute to get modifiers from
+	 * @return Modifiers of a category as an Array
+	 */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (AdvancedDisplay = "Category"))
 	static void GetModifiers(const FFloatAttr& Attribute, const FAttrCategory Category, TArray<FAttrModifier>& Modifiers)
 	{
@@ -96,10 +98,10 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	}
 
 	/**
-	* Get all categories where the attribute has any modifiers
-	* @param Attribute to get categories from
-	* @return Categories of an attribute as an Array
-	*/
+	 * Get all categories where the attribute has any modifiers
+	 * @param Attribute to get categories from
+	 * @return Categories of an attribute as an Array
+	 */
 	UFUNCTION(BlueprintPure, Category = Attributes)
 	static void GetModifiedCategories(const FFloatAttr& Attribute, TArray<FAttrCategory>& Categories)
 	{
@@ -107,9 +109,9 @@ class ATTRIBUTES_API UAttributesFunctionLibrary : public UBlueprintFunctionLibra
 	}
 
 	/**
-	* Remove all modifiers of an attribute
-	* @param Attribute to clean
-	*/
+	 * Remove all modifiers of an attribute
+	 * @param Attribute to clean
+	 */
 	UFUNCTION(BlueprintCallable, Category = Attributes)
 	static void CleanModifiers(UPARAM(ref) FFloatAttr& Attribute)
 	{

@@ -16,16 +16,16 @@ struct ATTRIBUTES_API FAttrModifier
 
 	FAttrModifier()
 		: Guid(FGuid::NewGuid())
-		, BasePercentageIncrement(0)
-		, PercentageIncrement(0)
-		, ScalarIncrement(0)
+		, BaseValueMultiplier(0.f)
+		, LastValueMultiplier(0.f)
+		, Increment(0.f)
 	{}
 
-	FAttrModifier(float BasePercentageIncrement, float PercentageIncrement = 0, float ScalarIncrement = 0)
+	FAttrModifier(float BaseValueMultiplier, float LastMultiplier = 0.f, float Increment = 0.f)
 		: Guid(FGuid::NewGuid())
-		, BasePercentageIncrement(BasePercentageIncrement)
-		, PercentageIncrement(PercentageIncrement)
-		, ScalarIncrement(ScalarIncrement)
+		, BaseValueMultiplier(BaseValueMultiplier)
+		, LastValueMultiplier(LastValueMultiplier)
+		, Increment(Increment)
 	{}
 
 public:
@@ -33,21 +33,27 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = Modifier)
 	FGuid Guid;
 
-	/* Adds a percentage of the base value to the attribute */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (UIMin = "0.0", UIMax = "100.0"))
-	float BasePercentageIncrement;
+	/* Adds the incremental coefficient of Base. E.g: +5% damage
+	 * X += Base * Cof
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (UIMin = "-1.0", UIMax = "1.0"))
+	float BaseValueMultiplier;
 
-	/* Adds a percentage of the last value to the attribute */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (UIMin = "0.0", UIMax = "100.0"))
-	float PercentageIncrement;
+	/* Adds the incremental coefficient of the last attribute value. E.g: +5% health
+	 * X += X * Cof
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (UIMin = "-1.0", UIMax = "1.0"))
+	float LastValueMultiplier;
 
 	/* Sums an amount to the attribute */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier)
-	float ScalarIncrement;
+	float Increment;
 
+	/** Apply changes to the value */
+	void Apply(float& Value, float BaseValue) const;
 
-	void Apply(const FFloatAttr& Attribute, float& ActualValue) const;
-
+	/** Applies the modifier to the value. This version operates as double to avoid int32 precision lose */
+	void Apply(double& Value, int32 BaseValue) const;
 
 	/** Stack other modifiers values into this mod.
 	 * Now applying this modifier will be equivalent to applying all the others at the same time

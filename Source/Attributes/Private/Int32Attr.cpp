@@ -1,10 +1,10 @@
 // Copyright 2015-2019 Piperift. All Rights Reserved.
 
-#include "FloatAttr.h"
+#include "Int32Attr.h"
 #include "AttributesModule.h"
 
 
-void FFloatAttr::SetBaseValue(float NewValue)
+void FInt32Attr::SetBaseValue(int32 NewValue)
 {
 	if (NewValue != BaseValue)
 	{
@@ -16,7 +16,7 @@ void FFloatAttr::SetBaseValue(float NewValue)
 	}
 }
 
-void FFloatAttr::PostSerialize(const FArchive & Ar)
+void FInt32Attr::PostSerialize(const FArchive & Ar)
 {
 	if (Ar.IsSaving())
 	{
@@ -24,20 +24,22 @@ void FFloatAttr::PostSerialize(const FArchive & Ar)
 	}
 }
 
-void FFloatAttr::RefreshValue()
+void FInt32Attr::RefreshValue()
 {
-	Value = BaseValue;
+	double TempValue = BaseValue;
 
 	for (const auto& Mod : BaseModifiers)
 	{
-		Mod.Apply(Value, BaseValue);
+		Mod.Apply(TempValue, BaseValue);
 	}
 
 	for (const auto& Category : CategoryMods)
 	{
 		for (const auto& Mod : Category.Modifiers)
 		{
-			Mod.Apply(Value, BaseValue);
+			Mod.Apply(TempValue, BaseValue);
 		}
 	}
+
+	Value = FMath::RoundToInt(TempValue);
 }
