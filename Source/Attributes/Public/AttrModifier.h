@@ -16,16 +16,16 @@ struct ATTRIBUTES_API FAttrModifier
 
 	FAttrModifier()
 		: Guid(FGuid::NewGuid())
-		, BaseValueMultiplier(0.f)
-		, LastValueMultiplier(0.f)
 		, Increment(0.f)
+		, LastValueMultiplier(0.f)
+		, BaseValueMultiplier(0.f)
 	{}
 
-	FAttrModifier(float BaseValueMultiplier, float LastMultiplier = 0.f, float Increment = 0.f)
+	FAttrModifier(float BaseValueMultiplier, float LastValueMultiplier = 0.f, float Increment = 0.f)
 		: Guid(FGuid::NewGuid())
-		, BaseValueMultiplier(BaseValueMultiplier)
-		, LastValueMultiplier(LastValueMultiplier)
 		, Increment(Increment)
+		, LastValueMultiplier(LastValueMultiplier)
+		, BaseValueMultiplier(BaseValueMultiplier)
 	{}
 
 public:
@@ -33,11 +33,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = Modifier)
 	FGuid Guid;
 
-	/* Adds the incremental coefficient of Base. E.g: +5% damage
-	 * X += Base * Cof
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (UIMin = "-1.0", UIMax = "1.0"))
-	float BaseValueMultiplier;
+	/* Sums an amount to the attribute */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier)
+	float Increment;
 
 	/* Adds the incremental coefficient of the last attribute value. E.g: +5% health
 	 * X += X * Cof
@@ -45,9 +43,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (UIMin = "-1.0", UIMax = "1.0"))
 	float LastValueMultiplier;
 
-	/* Sums an amount to the attribute */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier)
-	float Increment;
+	/* Adds the incremental coefficient of Base. E.g: +5% damage
+	 * X += Base * Cof
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (UIMin = "-1.0", UIMax = "1.0"))
+	float BaseValueMultiplier;
+
 
 	/** Apply changes to the value */
 	void Apply(float& Value, float BaseValue) const;
