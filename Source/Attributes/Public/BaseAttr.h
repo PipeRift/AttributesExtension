@@ -30,7 +30,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttributeModifiedMCDelegate, con
  * Extended upon to support different types of attributes
  */
 USTRUCT()
-struct FBaseAttr
+struct ATTRIBUTES_API FBaseAttr
 {
 	GENERATED_BODY()
 
