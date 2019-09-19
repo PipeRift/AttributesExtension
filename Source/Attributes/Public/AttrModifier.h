@@ -2,7 +2,9 @@
 
 #pragma once
 
+#include <CoreMinimal.h>
 #include "AttrModifier.generated.h"
+
 
 struct FFloatAttr;
 

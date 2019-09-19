@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <CoreMinimal.h>
+
 #include "AttrModifier.h"
 #include "AttributesSettings.h"
 #include "AttrCategory.generated.h"
