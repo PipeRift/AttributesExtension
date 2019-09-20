@@ -17,7 +17,7 @@
 USTRUCT(BlueprintType)
 struct ATTRIBUTES_API FAttrCategory
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
 
 	static const FAttrCategory NoCategory;
 
