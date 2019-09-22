@@ -15,7 +15,7 @@ cache:
 setup python:
   stage: setup
   script:
-    - pip install ue4cli
+    - python -m pip install ue4cli
 
 build plugin:
   stage: compile
