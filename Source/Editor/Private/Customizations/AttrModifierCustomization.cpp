@@ -105,11 +105,11 @@ FText FAttrModifierCustomization::GetValueHelpText() const
 	{
 		if (Increment > 0)
 		{
-			Text.Appendf(TEXT("+%g  "), Increment);
+			Text.Append(FString::Printf(TEXT("+%g  "), Increment));
 		}
 		else
 		{
-			Text.Appendf(TEXT("%g  "), Increment);
+			Text.Append(FString::Printf(TEXT("%g  "), Increment));
 		}
 	}
 
@@ -119,11 +119,11 @@ FText FAttrModifierCustomization::GetValueHelpText() const
 	{
 		if (LastMultiplier > 0.f)
 		{
-			Text.Appendf(TEXT("+%g%%  "), LastMultiplier * 100.f);
+			Text.Append(FString::Printf(TEXT("+%g%%  "), LastMultiplier * 100.f));
 		}
 		else
 		{
-			Text.Appendf(TEXT("%g%%  "), LastMultiplier * 100.f);
+			Text.Append(FString::Printf(TEXT("%g%%  "), LastMultiplier * 100.f));
 		}
 	}
 
@@ -133,11 +133,11 @@ FText FAttrModifierCustomization::GetValueHelpText() const
 	{
 		if (BaseMultiplier > 0.f)
 		{
-			Text.Appendf(TEXT("+%g%% base  "), BaseMultiplier * 100.f);
+			Text.Append(FString::Printf(TEXT("+%g%% base  "), BaseMultiplier * 100.f));
 		}
 		else
 		{
-			Text.Appendf(TEXT("%g%% base  "), BaseMultiplier * 100.f);
+			Text.Append(FString::Printf(TEXT("%g%% base  "), BaseMultiplier * 100.f));
 		}
 	}
 
