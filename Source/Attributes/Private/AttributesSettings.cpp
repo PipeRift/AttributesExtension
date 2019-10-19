@@ -4,24 +4,27 @@
 #include "AttributesModule.h"
 
 
+FAttributeReplicationConfig UAttributesSettings::Replication{};
+
+
 UAttributesSettings::UAttributesSettings()
 	: Super()
 {
 	Categories.Add(TEXT("Buff"));
 	Categories.Add(TEXT("Aura"));
 
-	FWorldDelegates::OnPostWorldInitialization.AddUObject(this, &UAttributesSettings::OnWorldInitialization);
+	FWorldDelegates::OnPreWorldInitialization.AddUObject(this, &UAttributesSettings::OnWorldInitialization);
 }
 
 void UAttributesSettings::BeginDestroy()
 {
-	FWorldDelegates::OnPostWorldInitialization.RemoveAll(this);
+	FWorldDelegates::OnPreWorldInitialization.RemoveAll(this);
 
 	Super::BeginDestroy();
 }
 
 void UAttributesSettings::OnWorldInitialization(UWorld* World, const UWorld::InitializationValues IVS)
 {
-	//Initialize manager
-	//FAttributesModule::GetAttributesManager();
+	// Update replication settings
+	Replication = { bReplicateBaseValue, bReplicateAttributeModifiers };
 }

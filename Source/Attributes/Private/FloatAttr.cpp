@@ -16,12 +16,9 @@ void FFloatAttr::SetBaseValue(float NewValue)
 	}
 }
 
-void FFloatAttr::PostSerialize(const FArchive & Ar)
+void FFloatAttr::PostScriptConstruct()
 {
-	if (Ar.IsSaving())
-	{
-		RefreshValue();
-	}
+	RefreshValue();
 }
 
 void FFloatAttr::RefreshValue()

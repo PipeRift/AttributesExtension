@@ -16,12 +16,9 @@ void FInt32Attr::SetBaseValue(int32 NewValue)
 	}
 }
 
-void FInt32Attr::PostSerialize(const FArchive & Ar)
+void FInt32Attr::PostScriptConstruct()
 {
-	if (Ar.IsSaving())
-	{
-		RefreshValue();
-	}
+	RefreshValue();
 }
 
 void FInt32Attr::RefreshValue()

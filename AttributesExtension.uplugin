@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 3,
-	"VersionName": "1.2",
+	"VersionName": "1.3",
 	"FriendlyName": "Attributes Extension",
 	"Description": "A lightweight attributes system for Unreal Engine 4",
 	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/1f0ba37099a14e228a1ce5e4891ed70a",

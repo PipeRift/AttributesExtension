@@ -18,18 +18,19 @@ class ATTRIBUTES_API UInt32AttributesLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
+public:
 
 	/** @return true when two Attributes are the same */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "=="))
-	static FORCEINLINE bool Is(UPARAM(ref) FInt32Attr& A, UPARAM(ref) FInt32Attr& B) { return A == B; }
+	static FORCEINLINE bool Is(const FInt32Attr& A, const FInt32Attr& B) { return A == B; }
 
 	/** @return true when two Attributes are not the same */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "!="))
-	static FORCEINLINE bool IsNot(UPARAM(ref) FInt32Attr& A, UPARAM(ref) FInt32Attr& B) { return A != B; }
+	static FORCEINLINE bool IsNot(const FInt32Attr& A, const FInt32Attr& B) { return A != B; }
 
 	/** @return true if two attributes have the same base value */
 	UFUNCTION(BlueprintPure, Category = Attributes)
-	static FORCEINLINE bool Equals(UPARAM(ref) FInt32Attr& A, UPARAM(ref) FInt32Attr& B)
+	static FORCEINLINE bool Equals(const FInt32Attr& A, const FInt32Attr& B)
 	{
 		return A.GetBaseValue() == B.GetBaseValue();
 	}
@@ -43,8 +44,14 @@ class ATTRIBUTES_API UInt32AttributesLibrary : public UBlueprintFunctionLibrary
 	static FORCEINLINE int32 GetValue(const FInt32Attr& Attribute) { return Attribute.GetValue(); }
 
 	// Get final value
-	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "To Int", CompactNodeTitle = "->", Keywords = "get value int", BlueprintAutocast))
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToInt (Int32Attr)", CompactNodeTitle = "->", Keywords = "get value int", BlueprintAutocast))
 	static FORCEINLINE int32 Conv_AttributeToInt(const FInt32Attr& Attribute) { return GetValue(Attribute); }
+
+	// Get final value as String
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToString (Int32Attr)", CompactNodeTitle = "->", BlueprintAutocast))
+	static FORCEINLINE FString Conv_AttributeToString(const FInt32Attr& Attribute) {
+		return FString::SanitizeFloat(GetValue(Attribute));
+	}
 
 	/**
 	 * Get the base value of an attribute
@@ -137,28 +144,14 @@ class ATTRIBUTES_API UInt32AttributesLibrary : public UBlueprintFunctionLibrary
 		Attribute.OnModified.Remove(Event);
 	}
 
+protected:
 
-	/** Stack other modifiers values into this mod.
-	 * Now applying this modifier will be equivalent to applying all the others at the same time
-	 * @param Mods to be stacked together as one
-	 * @return the resulting stacked mod
-	 */
-	UFUNCTION(BlueprintPure, Category = "Attributes|Modifiers")
-	static FORCEINLINE FAttrModifier StackMods(const TArray<FAttrModifier>& Mods)
-	{
-		FAttrModifier ResultMod{};
-		ResultMod.StackMods(Mods);
-		return MoveTemp(ResultMod);
-	}
+	UFUNCTION(BlueprintPure, Category = Attributes)
+	static void Make(int32 BaseValue, FInt32Attr& IntAttr) { IntAttr = { BaseValue }; }
 
-	/** Stack other modifier's values into target mod.
-	 * Applying this mod will be equivalent to applying both
-	 * @param TargetMod to be modified
-	 * @param OtherMod to be stacked into TargetMod
-	 */
-	UFUNCTION(BlueprintCallable, Category = "Attributes|Modifiers")
-	static void StackMod(UPARAM(ref) FAttrModifier& TargetMod, const FAttrModifier& OtherMod)
-	{
-		TargetMod.StackMod(OtherMod);
+	UFUNCTION(BlueprintPure, Category = Attributes)
+	static void Break(const FInt32Attr& IntAttr, int32& BaseValue, int32& Value) {
+		BaseValue = IntAttr.GetBaseValue();
+		Value = IntAttr.GetValue();
 	}
 };
