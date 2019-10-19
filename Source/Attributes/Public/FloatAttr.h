@@ -25,7 +25,7 @@ protected:
 	float BaseValue = 0.f;
 
 	/** Cached final value from modifiers */
-	UPROPERTY(EditAnywhere, Transient)
+	UPROPERTY(EditAnywhere, Category = Attribute, Transient)
 	float Value = 0.f;
 
 

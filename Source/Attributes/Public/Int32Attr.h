@@ -27,7 +27,7 @@ protected:
 private:
 
 	/** Cached final value from modifiers */
-	UPROPERTY(EditAnywhere, Transient)
+	UPROPERTY(EditAnywhere, Category = Attribute, Transient)
 	int32 Value = 0;
 
 
