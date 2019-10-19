@@ -15,29 +15,26 @@
  * Int32 Attribute
  * Used as a modular int32 depending on modifiers
  */
-USTRUCT(BlueprintType, meta = (HiddenByDefault))
+USTRUCT(BlueprintType, meta = (DisplayName="Int32 Attr", HasNativeBreak = "Attributes.Int32AttributesLibrary.Break", HasNativeMake = "Attributes.Int32AttributesLibrary.Make"))
 struct ATTRIBUTES_API FInt32Attr : public FBaseAttr
 {
 	GENERATED_BODY()
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attribute, SaveGame)
-	int32 BaseValue;
+	int32 BaseValue = 0;
 
 private:
 
 	/** Cached final value from modifiers */
-	UPROPERTY()
-	int32 Value;
+	UPROPERTY(EditAnywhere, Transient)
+	int32 Value = 0;
 
 
 public:
 
-	FInt32Attr(int32 BaseValue = 0)
-		: FBaseAttr()
-		, BaseValue(BaseValue)
-		, Value(BaseValue)
-	{}
+	FInt32Attr() : FBaseAttr() {}
+	FInt32Attr(int32 BaseValue) : FBaseAttr(), BaseValue(BaseValue), Value(BaseValue) {}
 
 	void SetBaseValue(int32 NewValue);
 	FORCEINLINE int32 GetBaseValue() const { return BaseValue; }
@@ -54,18 +51,36 @@ public:
 
 	FORCEINLINE int32 operator-(const FInt32Attr& Other) const { return *this - Other.GetValue(); }
 
-	void PostSerialize(const FArchive& Ar);
+	bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
+
+	void PostScriptConstruct();
 
 private:
 
 	virtual void RefreshValue() override;
 };
 
+
 template<>
 struct TStructOpsTypeTraits<FInt32Attr> : public TStructOpsTypeTraitsBase2<FInt32Attr>
 {
-	enum
-	{
-		WithPostSerialize = true
+	enum {
+		WithNetSerializer = true,
+		WithNetSharedSerialization = true,
+		WithPostScriptConstruct = true
 	};
 };
+
+
+inline bool FInt32Attr::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess)
+{
+	if (UAttributesSettings::GetReplication().bReplicateBaseValue)
+	{
+		Ar << BaseValue;
+	}
+
+	Ar << Value;
+
+	bOutSuccess = true;
+	return true;
+}

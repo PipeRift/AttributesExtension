@@ -2,17 +2,30 @@
 
 #include "Customizations/Int32AttrCustomization.h"
 
-#include "DetailWidgetRow.h"
-#include "IDetailChildrenBuilder.h"
+#include <DetailWidgetRow.h>
+#include <IDetailChildrenBuilder.h>
+#include <Editor/UnrealEdEngine.h>
 
 #include "Int32Attr.h"
 
-#define LOCTEXT_NAMESPACE "FInt32AttributeCustomization"
+#define LOCTEXT_NAMESPACE "FInt32AttrCustomization"
 
+
+FInt32AttrCustomization::~FInt32AttrCustomization()
+{
+	GEditor->UnregisterForUndo(this);
+	BaseValueChanged.Unbind();
+}
 
 void FInt32AttrCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> StructPropertyHandle, class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
 {
-	TSharedPtr<IPropertyHandle> BaseValueHandle = StructPropertyHandle->GetChildHandle({"BaseValue"});
+	GEditor->RegisterForUndo(this);
+
+	BaseValueHandle = StructPropertyHandle->GetChildHandle({ "BaseValue" });
+	ValueHandle = StructPropertyHandle->GetChildHandle({ "Value" });
+
+	BaseValueChanged.BindRaw(this, &FInt32AttrCustomization::RefreshValue);
+	BaseValueHandle->SetOnPropertyValueChanged(BaseValueChanged);
 
 	HeaderRow.NameContent()
 	[
@@ -25,18 +38,18 @@ void FInt32AttrCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> Struct
 	];
 }
 
-void FInt32AttrCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> StructPropertyHandle, IDetailChildrenBuilder& StructBuilder, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
+void FInt32AttrCustomization::RefreshValue()
 {
-	/*TSharedPtr<IPropertyHandle> ModifiersHandle = StructPropertyHandle->GetChildHandle(GET_MEMBER_NAME_CHECKED(FFloatAttr, BaseModifiers));
-	StructBuilder.AddProperty(ModifiersHandle.ToSharedRef());*/
-}
+	if (!BaseValueHandle.IsValid() || !ValueHandle.IsValid())
+	{
+		return;
+	}
 
-FText FInt32AttrCustomization::GetTextFromHandle(TSharedRef<IPropertyHandle> Handle) const
-{
-	FName Text;
-	Handle->GetValue(Text);
-	return FText::FromName(Text);
+	int32 BaseValue;
+	if (BaseValueHandle->GetValue(BaseValue) == FPropertyAccess::Success)
+	{
+		ValueHandle->SetValue(BaseValue, EPropertyValueSetFlags::NotTransactable);
+	}
 }
-
 
 #undef LOCTEXT_NAMESPACE

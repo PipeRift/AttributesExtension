@@ -2,13 +2,18 @@
 
 #pragma once
 
-#include "IPropertyTypeCustomization.h"
-#include "PropertyHandle.h"
-#include "Widgets/Views/SListView.h"
+#include <IPropertyTypeCustomization.h>
+#include <PropertyHandle.h>
+#include <Widgets/Views/SListView.h>
+#include <EditorUndoClient.h>
 
-class FInt32AttrCustomization : public IPropertyTypeCustomization
+
+class FInt32AttrCustomization : public IPropertyTypeCustomization, public FEditorUndoClient
 {
 public:
+
+	virtual ~FInt32AttrCustomization();
+
 	/**
 	* Creates a new instance.
 	*
@@ -21,10 +26,21 @@ public:
 
 	/** IPropertyTypeCustomization interface */
 	virtual void CustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle, class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils) override;
-	virtual void CustomizeChildren(TSharedRef<class IPropertyHandle> StructPropertyHandle, class IDetailChildrenBuilder& StructBuilder, IPropertyTypeCustomizationUtils& StructCustomizationUtils) override;
+	virtual void CustomizeChildren(TSharedRef<class IPropertyHandle> StructPropertyHandle, class IDetailChildrenBuilder& StructBuilder, IPropertyTypeCustomizationUtils& StructCustomizationUtils) override {}
 
 protected:
 
-	FText GetTextFromHandle(TSharedRef<IPropertyHandle> Handle) const;
+	//~ Begin FEditorUndoClient Interface
+	virtual void PostUndo(bool bSuccess) override { RefreshValue(); }
+	virtual void PostRedo(bool bSuccess) override { RefreshValue(); }
+	// End of FEditorUndoClient
+
+	void RefreshValue();
+
+
+	FSimpleDelegate BaseValueChanged;
+
+	TSharedPtr<IPropertyHandle> BaseValueHandle;
+	TSharedPtr<IPropertyHandle> ValueHandle;
 };
 

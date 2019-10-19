@@ -4,47 +4,76 @@
 #include "FloatAttr.h"
 
 
+FAttrModifier::FAttrModifier(EModifierMask Mode, float Value)
+	: Guid(FGuid::NewGuid())
+{
+	switch (Mode)
+	{
+	case EModifierMask::Increment:
+		Increment = Value;
+		break;
+	case EModifierMask::LastMultiplier:
+		LastMultiplier = Value;
+		break;
+	case EModifierMask::BaseMultiplier:
+		BaseMultiplier = Value;
+		break;
+	}
+}
+
+FAttrModifier::FAttrModifier(float Increment, float LastValueMultiplier, float BaseValueMultiplier)
+	: Guid(FGuid::NewGuid())
+	, Increment(Increment)
+	, LastMultiplier(LastValueMultiplier)
+	, BaseMultiplier(BaseValueMultiplier)
+{
+}
+
 void FAttrModifier::Apply(float& Value, float BaseValue) const
 {
-	if (!FMath::IsNearlyZero(LastValueMultiplier))
+	if (!FMath::IsNearlyZero(LastMultiplier))
 	{
-		Value *= 1.0f + LastValueMultiplier;
+		Value *= 1.0f + LastMultiplier;
 	}
-	if (!FMath::IsNearlyZero(BaseValueMultiplier))
+	if (!FMath::IsNearlyZero(BaseMultiplier))
 	{
-		Value += BaseValueMultiplier * BaseValue;
+		Value += BaseMultiplier * BaseValue;
 	}
 	Value += Increment;
 }
 
 void FAttrModifier::Apply(double& Value, int32 BaseValue) const
 {
-	if (!FMath::IsNearlyZero(LastValueMultiplier))
+	if (!FMath::IsNearlyZero(LastMultiplier))
 	{
-		Value *= 1.0 + LastValueMultiplier;
+		Value *= 1.0 + LastMultiplier;
 	}
-	if (!FMath::IsNearlyZero(BaseValueMultiplier))
+	if (!FMath::IsNearlyZero(BaseMultiplier))
 	{
-		Value += BaseValueMultiplier * BaseValue;
+		Value += BaseMultiplier * BaseValue;
 	}
 	Value += Increment;
 }
 
 void FAttrModifier::StackMods(const TArray<FAttrModifier>& OtherMods)
 {
+	for (const auto& Mod : OtherMods)
+	{
+		StackMod(Mod);
+	}
 }
 
 void FAttrModifier::StackMod(const FAttrModifier& OtherMod)
 {
-	if (!FMath::IsNearlyZero(OtherMod.LastValueMultiplier))
+	if (!FMath::IsNearlyZero(OtherMod.LastMultiplier))
 	{
 		// Stack % value
-		LastValueMultiplier = (1.f + LastValueMultiplier) * (1.f + OtherMod.LastValueMultiplier) - 1.0f;
+		LastMultiplier = (1.f + LastMultiplier) * (1.f + OtherMod.LastMultiplier) - 1.0f;
 	}
-	if (!FMath::IsNearlyZero(OtherMod.BaseValueMultiplier))
+	if (!FMath::IsNearlyZero(OtherMod.BaseMultiplier))
 	{
 		// Stack % base value
-		BaseValueMultiplier = (1.f + BaseValueMultiplier) * (1.f + OtherMod.BaseValueMultiplier) - 1.0f;
+		BaseMultiplier = (1.f + BaseMultiplier) * (1.f + OtherMod.BaseMultiplier) - 1.0f;
 	}
 	Increment += OtherMod.Increment;
 }
