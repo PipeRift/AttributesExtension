@@ -43,6 +43,17 @@
 				"XboxOne",
 				"Switch"
 			]
+		},
+		{
+			"Name" : "AttributesTest",
+			"Type" : "Developer",
+			"LoadingPhase" : "PreDefault",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Win32",
+				"Linux",
+				"Mac"
+			]
 		}
 	]
 }
