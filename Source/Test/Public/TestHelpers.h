@@ -27,7 +27,7 @@ protected:
 
 
 #ifndef BASE_SPEC
-	#define BASE_SPEC FQESpec
+	#define BASE_SPEC FAESpec
 #endif
 
 #define BEGIN_TESTSPEC_PRIVATE( TClass, PrettyName, TFlags, FileName, LineNumber ) \
