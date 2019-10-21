@@ -32,11 +32,18 @@ void FAttrModifierCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> Str
 
 void FAttrModifierCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> StructPropertyHandle, IDetailChildrenBuilder& StructBuilder, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
 {
-	StructBuilder.AddCustomRow(LOCTEXT("Search", "Values")).WholeRowContent()
-	[
-		SNew(SHorizontalBox)
-		+ SHorizontalBox::Slot()
-		.Padding(4, 0)
+	const bool bHideIncrement = StructHandle->HasMetaData("HideIncrement");
+	const bool bHideLastMultiplier = StructHandle->HasMetaData("HideLastMultiplier");
+	const bool bHideBaseMultiplier = StructHandle->HasMetaData("HideBaseMultiplier");
+
+	TSharedRef<SHorizontalBox> ModListWidget = SNew(SHorizontalBox);
+
+	if (!bHideIncrement)
+	{
+		ModListWidget->AddSlot()
+		.HAlign(HAlign_Fill)
+		.MaxWidth(100.f)
+		.Padding(2, 0)
 		[
 			SNew(SVerticalBox)
 			+ SVerticalBox::Slot()
@@ -44,18 +51,19 @@ void FAttrModifierCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> S
 				IncrementHandle->CreatePropertyNameWidget()
 			]
 			+ SVerticalBox::Slot()
-			.HAlign(HAlign_Left)
+			.HAlign(HAlign_Fill)
 			[
-				SNew(SBox)
-				.MinDesiredWidth(120.f)
-				.MaxDesiredWidth(200.f)
-				[
-					IncrementHandle->CreatePropertyValueWidget()
-				]
+				IncrementHandle->CreatePropertyValueWidget()
 			]
-		]
-		+ SHorizontalBox::Slot()
-		.Padding(4, 0)
+		];
+	}
+
+	if (!bHideLastMultiplier)
+	{
+		ModListWidget->AddSlot()
+		.HAlign(HAlign_Fill)
+		.MaxWidth(100.f)
+		.Padding(2, 0)
 		[
 			SNew(SVerticalBox)
 			+ SVerticalBox::Slot()
@@ -63,18 +71,19 @@ void FAttrModifierCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> S
 				LastMultiplierHandle->CreatePropertyNameWidget()
 			]
 			+ SVerticalBox::Slot()
-			.HAlign(HAlign_Left)
+			.HAlign(HAlign_Fill)
 			[
-				SNew(SBox)
-				.MinDesiredWidth(120.f)
-				.MaxDesiredWidth(200.f)
-				[
-					LastMultiplierHandle->CreatePropertyValueWidget()
-				]
+				LastMultiplierHandle->CreatePropertyValueWidget()
 			]
-		]
-		+ SHorizontalBox::Slot()
-		.Padding(4, 0)
+		];
+	}
+
+	if (!bHideBaseMultiplier)
+	{
+		ModListWidget->AddSlot()
+		.HAlign(HAlign_Fill)
+		.MaxWidth(100.f)
+		.Padding(2, 0)
 		[
 			SNew(SVerticalBox)
 			+ SVerticalBox::Slot()
@@ -82,16 +91,18 @@ void FAttrModifierCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> S
 				BaseMultiplierHandle->CreatePropertyNameWidget()
 			]
 			+ SVerticalBox::Slot()
-			.HAlign(HAlign_Left)
+			.HAlign(HAlign_Fill)
 			[
-				SNew(SBox)
-				.MinDesiredWidth(120.f)
-				.MaxDesiredWidth(200.f)
-				[
-					BaseMultiplierHandle->CreatePropertyValueWidget()
-				]
+				BaseMultiplierHandle->CreatePropertyValueWidget()
 			]
-		]
+		];
+	}
+
+	StructBuilder.AddCustomRow(LOCTEXT("Search", "Values"))
+	.ValueContent()
+	.MinDesiredWidth(500.f)
+	[
+		ModListWidget
 	];
 }
 
