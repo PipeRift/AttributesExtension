@@ -6,23 +6,9 @@
 
 #include "AttrModifier.h"
 #include "AttrCategory.h"
+#include "AttributeEvents.h"
 
 #include "BaseAttr.generated.h"
-
-
-UENUM(BlueprintType)
-enum class EAttributeOperation : uint8
-{
-	None,
-	Add,
-	Remove,
-	RemoveAll,
-	RemoveCategory,
-	Base
-};
-
-DECLARE_DYNAMIC_DELEGATE_ThreeParams(FAttributeModifiedDelegate, const EAttributeOperation, Operation, const FAttrModifier&, Modifier, const FAttrCategory&, Category);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttributeModifiedMCDelegate, const EAttributeOperation, Operation, const FAttrModifier&, Modifier, const FAttrCategory&, Category);
 
 
 /**
@@ -33,7 +19,6 @@ USTRUCT()
 struct ATTRIBUTES_API FBaseAttr
 {
 	GENERATED_BODY()
-
 
 private:
 
@@ -54,16 +39,11 @@ protected:
 	UPROPERTY(NotReplicated, SaveGame)
 	TArray<FAttributeCategoryMods> CategoryMods;
 
+
 public:
-
-	UPROPERTY()
-	FAttributeModifiedMCDelegate OnModified;
-
 
 	FBaseAttr() : Id(IdCount++) {}
 	virtual ~FBaseAttr() {}
-
-public:
 
 	void AddModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory);
 	bool RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category = FAttrCategory::NoCategory, bool bRemoveFromAllCategories = false);
@@ -82,8 +62,12 @@ public:
 	void CleanCategoryModifiers(const FAttrCategory& Category);
 	void CleanModifiers();
 
-	virtual void RefreshValue() {}
+	void RefreshValue() { InternalRefreshValue({}); }
 
 	// Compare two attributes by Id
 	FORCEINLINE bool operator==(const FBaseAttr& Other) const { return Id == Other.Id; }
+
+protected:
+
+	virtual void InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo) {}
 };

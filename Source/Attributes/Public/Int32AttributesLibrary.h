@@ -133,15 +133,15 @@ public:
 	}
 
 	UFUNCTION(BlueprintCallable, Category = Attributes, meta = (AdvancedDisplay = "Category"))
-	static void BindOnModified(UPARAM(ref) FInt32Attr& Attribute, const FAttributeModifiedDelegate& Event)
+	static void BindOnModified(UPARAM(ref) FInt32Attr& Attribute, const FInt32ModifiedDelegate& Event)
 	{
-		Attribute.OnModified.AddUnique(Event);
+		Attribute.GetOnModified().AddUnique(Event);
 	}
 
 	UFUNCTION(BlueprintCallable, Category = Attributes, meta = (AdvancedDisplay = "Category"))
-	static void UnbindOnModified(UPARAM(ref) FInt32Attr& Attribute, const FAttributeModifiedDelegate& Event)
+	static void UnbindOnModified(UPARAM(ref) FInt32Attr& Attribute, const FInt32ModifiedDelegate& Event)
 	{
-		Attribute.OnModified.Remove(Event);
+		Attribute.GetOnModified().Remove(Event);
 	}
 
 protected:
