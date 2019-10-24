@@ -24,7 +24,7 @@ void FFloatAttr::PostScriptConstruct()
 	RefreshValue();
 }
 
-void FFloatAttr::InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo)
+void FFloatAttr::InternalRefreshValue(FAttributeChangeInfo&& ChangeInfo)
 {
 	const float LastValue = Value;
 	Value = BaseValue;

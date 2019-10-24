@@ -24,7 +24,7 @@ void FInt32Attr::PostScriptConstruct()
 	RefreshValue();
 }
 
-void FInt32Attr::InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo)
+void FInt32Attr::InternalRefreshValue(FAttributeChangeInfo&& ChangeInfo)
 {
 	const int32 LastValue = Value;
 	double TempValue = BaseValue;

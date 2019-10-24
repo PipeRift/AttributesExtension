@@ -69,5 +69,5 @@ public:
 
 protected:
 
-	virtual void InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo) {}
+	virtual void InternalRefreshValue(FAttributeChangeInfo&& ChangeInfo) {}
 };

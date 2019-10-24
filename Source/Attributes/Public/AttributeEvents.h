@@ -23,22 +23,22 @@ enum class EAttributeOperation : uint8
 
 
 USTRUCT(BlueprintType)
-struct FAttributeModifiedInfo
+struct FAttributeChangeInfo
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = Change)
 	EAttributeOperation Operation;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = Change)
 	FAttrModifier Modifier;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly, Category = Change)
 	FAttrCategory Category;
 };
 
-DECLARE_DYNAMIC_DELEGATE_TwoParams(FFloatModifiedDelegate, float, LastValue, const FAttributeModifiedInfo&, Modification);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FFloatModifiedMCDelegate, float, LastValue, const FAttributeModifiedInfo&, Modification);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FFloatModifiedDelegate, float, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FFloatModifiedMCDelegate, float, LastValue, const FAttributeChangeInfo&, Modification);
 
-DECLARE_DYNAMIC_DELEGATE_TwoParams(FInt32ModifiedDelegate, int32, LastValue, const FAttributeModifiedInfo&, Modification);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInt32ModifiedMCDelegate, int32, LastValue, const FAttributeModifiedInfo&, Modification);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FInt32ModifiedDelegate, int32, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInt32ModifiedMCDelegate, int32, LastValue, const FAttributeChangeInfo&, Modification);
