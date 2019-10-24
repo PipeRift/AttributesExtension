@@ -30,8 +30,11 @@ void FBaseAttr::AddModifier(const FAttrModifier& Modifier, const FAttrCategory& 
 		return;
 	}
 
-	RefreshValue();
-	OnModified.Broadcast(EAttributeOperation::Add, Modifier, Category);
+	InternalRefreshValue({
+		EAttributeOperation::AddedMod,
+		Modifier,
+		Category
+	});
 }
 
 bool FBaseAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category, bool bRemoveFromAllCategories)
@@ -88,8 +91,11 @@ bool FBaseAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCategor
 
 	if (bChanged)
 	{
-		RefreshValue();
-		OnModified.Broadcast(EAttributeOperation::Remove, Modifier, Category);
+		InternalRefreshValue({
+			EAttributeOperation::RemovedMod,
+			Modifier,
+			Category
+		});
 	}
 	return bChanged;
 }
@@ -131,8 +137,11 @@ void FBaseAttr::CleanCategoryModifiers(const FAttrCategory& Category)
 			BaseModifiers.Empty();
 
 			// Notify
-			RefreshValue();
-			OnModified.Broadcast(EAttributeOperation::RemoveCategory, {}, Category);
+			InternalRefreshValue({
+				EAttributeOperation::RemovedCategory,
+				{},
+				Category
+			});
 		}
 	}
 	else
@@ -144,8 +153,11 @@ void FBaseAttr::CleanCategoryModifiers(const FAttrCategory& Category)
 			CategoryMods.HeapRemoveAt(Index);
 
 			// Notify
-			RefreshValue();
-			OnModified.Broadcast(EAttributeOperation::RemoveCategory, {}, Category);
+			InternalRefreshValue({
+				EAttributeOperation::RemovedCategory,
+				{},
+				Category
+			});
 		}
 		else
 		{
@@ -163,7 +175,10 @@ void FBaseAttr::CleanModifiers()
 		BaseModifiers.Empty();
 		CategoryMods.Empty();
 
-		RefreshValue();
-		OnModified.Broadcast(EAttributeOperation::RemoveAll, {}, FAttrCategory::NoCategory);
+		InternalRefreshValue({
+			EAttributeOperation::RemovedAllMods,
+			{},
+			FAttrCategory::NoCategory
+		});
 	}
 }

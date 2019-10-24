@@ -11,8 +11,11 @@ void FFloatAttr::SetBaseValue(float NewValue)
 		BaseValue = NewValue;
 
 		// Notify
-		RefreshValue();
-		OnModified.Broadcast(EAttributeOperation::Base, {}, FAttrCategory::NoCategory);
+		InternalRefreshValue({
+			EAttributeOperation::BaseValueChanged,
+			{},
+			FAttrCategory::NoCategory
+		});
 	}
 }
 
@@ -21,8 +24,9 @@ void FFloatAttr::PostScriptConstruct()
 	RefreshValue();
 }
 
-void FFloatAttr::RefreshValue()
+void FFloatAttr::InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo)
 {
+	const float LastValue = Value;
 	Value = BaseValue;
 
 	for (const auto& Mod : BaseModifiers)
@@ -37,4 +41,7 @@ void FFloatAttr::RefreshValue()
 			Mod.Apply(Value, BaseValue);
 		}
 	}
+
+	// Notify changes
+	OnModified.Broadcast(LastValue, ChangeInfo);
 }

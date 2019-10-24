@@ -24,12 +24,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Attribute, SaveGame)
 	int32 BaseValue = 0;
 
-private:
-
 	/** Cached final value from modifiers */
 	UPROPERTY(EditAnywhere, Category = Attribute, Transient)
 	int32 Value = 0;
 
+	UPROPERTY()
+	FInt32ModifiedMCDelegate OnModified;
 
 public:
 
@@ -55,9 +55,12 @@ public:
 
 	void PostScriptConstruct();
 
+	FInt32ModifiedMCDelegate& GetOnModified() { return OnModified; }
+	const FInt32ModifiedMCDelegate& GetOnModified() const { return OnModified; }
+
 private:
 
-	virtual void RefreshValue() override;
+	virtual void InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo) override;
 };
 
 

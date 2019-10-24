@@ -28,6 +28,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Attribute, Transient)
 	float Value = 0.f;
 
+	UPROPERTY()
+	FFloatModifiedMCDelegate OnModified;
+
 
 public:
 
@@ -53,9 +56,12 @@ public:
 
 	void PostScriptConstruct();
 
+	FFloatModifiedMCDelegate& GetOnModified() { return OnModified; }
+	const FFloatModifiedMCDelegate& GetOnModified() const { return OnModified; }
+
 private:
 
-	virtual void RefreshValue() override;
+	virtual void InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo) override;
 };
 
 

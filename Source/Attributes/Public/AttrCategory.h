@@ -30,8 +30,7 @@ public:
 
 public:
 
-	FAttrCategory() : Name(NO_ATTRCATEGORY_NAME) {
-	}
+	FAttrCategory() : Name(NO_ATTRCATEGORY_NAME) {}
 
 	FAttrCategory(FName Name)
 		: Name(Name)
@@ -50,7 +49,8 @@ public:
 		return GetTypeHash(InRelation.Name);
 	}
 
-	FName GetName() const {
+	FName GetName() const
+	{
 		return Name;
 	}
 };

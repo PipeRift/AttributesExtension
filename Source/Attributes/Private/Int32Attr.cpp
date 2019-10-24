@@ -11,8 +11,11 @@ void FInt32Attr::SetBaseValue(int32 NewValue)
 		BaseValue = NewValue;
 
 		// Notify
-		RefreshValue();
-		OnModified.Broadcast(EAttributeOperation::Base, {}, FAttrCategory::NoCategory);
+		InternalRefreshValue({
+			EAttributeOperation::BaseValueChanged,
+			{},
+			FAttrCategory::NoCategory
+		});
 	}
 }
 
@@ -21,8 +24,9 @@ void FInt32Attr::PostScriptConstruct()
 	RefreshValue();
 }
 
-void FInt32Attr::RefreshValue()
+void FInt32Attr::InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo)
 {
+	const int32 LastValue = Value;
 	double TempValue = BaseValue;
 
 	for (const auto& Mod : BaseModifiers)
