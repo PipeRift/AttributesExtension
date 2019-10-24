@@ -61,7 +61,7 @@ public:
 
 private:
 
-	virtual void InternalRefreshValue(FAttributeModifiedInfo&& ChangeInfo) override;
+	virtual void InternalRefreshValue(FAttributeChangeInfo&& ChangeInfo) override;
 };
 
 
