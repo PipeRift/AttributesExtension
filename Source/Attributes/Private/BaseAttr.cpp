@@ -9,6 +9,11 @@ uint32 FBaseAttr::IdCount{ 0 };
 
 void FBaseAttr::AddModifier(const FAttrModifier& Modifier, const FAttrCategory& Category)
 {
+	if (Modifier.IsEmpty())
+	{
+		return;
+	}
+
 	if (Category == FAttrCategory::NoCategory)
 	{
 		BaseModifiers.Add(Modifier);
