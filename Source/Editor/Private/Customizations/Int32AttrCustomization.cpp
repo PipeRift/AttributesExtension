@@ -27,6 +27,8 @@ void FInt32AttrCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> Struct
 	BaseValueChanged.BindRaw(this, &FInt32AttrCustomization::RefreshValue);
 	BaseValueHandle->SetOnPropertyValueChanged(BaseValueChanged);
 
+	CopyMetadata(StructPropertyHandle, BaseValueHandle);
+
 	HeaderRow.NameContent()
 	[
 		StructPropertyHandle->CreatePropertyNameWidget()
@@ -49,6 +51,17 @@ void FInt32AttrCustomization::RefreshValue()
 	if (BaseValueHandle->GetValue(BaseValue) == FPropertyAccess::Success)
 	{
 		ValueHandle->SetValue(BaseValue, EPropertyValueSetFlags::NotTransactable);
+	}
+}
+
+void FInt32AttrCustomization::CopyMetadata(TSharedPtr<IPropertyHandle> Origin, TSharedPtr<IPropertyHandle> Target)
+{
+	if (const auto * Metadata = Origin->GetInstanceMetaDataMap())
+	{
+		for (const auto& Item : *Metadata)
+		{
+			Target->SetInstanceMetaData(Item.Key, Item.Value);
+		}
 	}
 }
 
