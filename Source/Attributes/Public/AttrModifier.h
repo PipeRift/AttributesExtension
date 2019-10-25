@@ -116,6 +116,8 @@ public:
 	}
 
 	bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
+
+	bool IsEmpty() const;
 };
 
 template<>
@@ -165,4 +167,11 @@ inline bool FAttrModifier::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bO
 
 	bOutSuccess = true;
 	return true;
+}
+
+inline bool FAttrModifier::IsEmpty() const
+{
+	return FMath::IsNearlyZero(Increment)
+		&& FMath::IsNearlyZero(LastMultiplier)
+		&& FMath::IsNearlyZero(BaseMultiplier);
 }

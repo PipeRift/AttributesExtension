@@ -43,4 +43,7 @@ void FInt32Attr::InternalRefreshValue(FAttributeChangeInfo&& ChangeInfo)
 	}
 
 	Value = FMath::RoundToInt(TempValue);
+
+	// Notify changes
+	OnModified.Broadcast(LastValue, ChangeInfo);
 }
