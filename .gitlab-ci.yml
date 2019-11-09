@@ -23,6 +23,8 @@ unit test:
   artifacts:
     reports:
       junit: Test/Report.xml
+    paths:
+      - Test
 
 upload:
   stage: deploy
