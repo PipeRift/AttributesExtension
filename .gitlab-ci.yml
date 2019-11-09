@@ -20,6 +20,9 @@ unit test:
   stage: test
   script:
     - py $LIB_PATH/test_plugin.py
+  artifacts:
+    reports:
+      junit: Test/Report.xml
 
 upload:
   stage: deploy
