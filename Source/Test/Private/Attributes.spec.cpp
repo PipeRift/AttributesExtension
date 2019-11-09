@@ -36,15 +36,20 @@ void FInt32AttributesSpec::Define()
 	It("Attributes can be instantiated empty", [this]()
 	{
 		FInt32Attr Attr;
-		TestTrue(TEXT("Base Value is set"), Attr.GetBaseValue() == 0);
-		TestTrue(TEXT("Value is set"), Attr == 0);
+		TestTrue(TEXT("Base Value"), Attr.GetBaseValue() == 0);
+		TestTrue(TEXT("Value"), Attr == 0);
 	});
 
 	It("Attributes can be instantiated with a base value", [this]()
 	{
 		FInt32Attr Attr{ 5 };
-		TestTrue(TEXT("Base Value is set"), Attr.GetBaseValue() == 5);
-		TestTrue(TEXT("Base Value is set"), Attr == 5);
+		TestTrue(TEXT("Base Value"), Attr.GetBaseValue() == 5);
+		TestTrue(TEXT("Value"), Attr == 5);
+	});
+	
+	It("This one will fail", [this]()
+	{
+		TestTrue(TEXT("Value is 2"), 1 == 2);
 	});
 }
 
