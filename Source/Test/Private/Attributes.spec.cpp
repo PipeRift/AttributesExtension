@@ -46,11 +46,6 @@ void FInt32AttributesSpec::Define()
 		TestTrue(TEXT("Base Value"), Attr.GetBaseValue() == 5);
 		TestTrue(TEXT("Value"), Attr == 5);
 	});
-	
-	It("This one will fail", [this]()
-	{
-		TestTrue(TEXT("Value is 2"), 1 == 2);
-	});
 }
 
 TESTSPEC(FModifiersSpec, "AttributesExtension.Modifiers", Flags_Product)
