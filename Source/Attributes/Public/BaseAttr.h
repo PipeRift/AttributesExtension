@@ -29,7 +29,7 @@ private:
 	static uint32 IdCount;
 
 	UPROPERTY(Savegame)
-	uint32 Id;
+	uint32 Id = 0;
 
 protected:
 
