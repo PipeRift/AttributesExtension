@@ -5,6 +5,7 @@
 #include <DetailWidgetRow.h>
 #include <IDetailChildrenBuilder.h>
 #include <Editor/UnrealEdEngine.h>
+#include <UObject/Metadata.h>
 
 #include "Int32Attr.h"
 
@@ -56,7 +57,8 @@ void FInt32AttrCustomization::RefreshValue()
 
 void FInt32AttrCustomization::CopyMetadata(TSharedPtr<IPropertyHandle> Origin, TSharedPtr<IPropertyHandle> Target)
 {
-	if (const auto * Metadata = Origin->GetInstanceMetaDataMap())
+	const auto * Metadata = UMetaData::GetMapForObject(Origin->GetMetaDataProperty());
+	if (Metadata)
 	{
 		for (const auto& Item : *Metadata)
 		{
