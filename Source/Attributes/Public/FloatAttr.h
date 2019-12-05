@@ -54,6 +54,7 @@ public:
 
 	bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
 
+	void PostSerialize(const FArchive& Ar);
 	void PostScriptConstruct();
 
 	FFloatModifiedMCDelegate& GetOnModified() { return OnModified; }
@@ -71,6 +72,7 @@ struct TStructOpsTypeTraits<FFloatAttr> : public TStructOpsTypeTraitsBase2<FFloa
 	enum {
 		WithNetSerializer = true,
 		WithNetSharedSerialization = true,
+		WithPostSerialize = true,
 		WithPostScriptConstruct = true
 	};
 };
@@ -87,4 +89,13 @@ inline bool FFloatAttr::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutS
 
 	bOutSuccess = true;
 	return true;
+}
+
+inline void FFloatAttr::PostSerialize(const FArchive& Ar)
+{
+	// We refresh serialized value for overrided properties or instanced objects
+	if(Ar.IsLoading())
+	{
+		RefreshValue();
+	}
 }

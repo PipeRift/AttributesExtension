@@ -53,6 +53,7 @@ public:
 
 	bool NetSerialize(FArchive& Ar, class UPackageMap* Map, bool& bOutSuccess);
 
+	void PostSerialize(const FArchive& Ar);
 	void PostScriptConstruct();
 
 	FInt32ModifiedMCDelegate& GetOnModified() { return OnModified; }
@@ -70,6 +71,7 @@ struct TStructOpsTypeTraits<FInt32Attr> : public TStructOpsTypeTraitsBase2<FInt3
 	enum {
 		WithNetSerializer = true,
 		WithNetSharedSerialization = true,
+		WithPostSerialize = true,
 		WithPostScriptConstruct = true
 	};
 };
@@ -86,4 +88,13 @@ inline bool FInt32Attr::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutS
 
 	bOutSuccess = true;
 	return true;
+}
+
+inline void FInt32Attr::PostSerialize(const FArchive& Ar)
+{
+	// We refresh serialized value for overrided properties or instanced objects
+	if(Ar.IsLoading())
+	{
+		RefreshValue();
+	}
 }
