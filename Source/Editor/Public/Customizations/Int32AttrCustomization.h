@@ -37,6 +37,7 @@ protected:
 
 	void RefreshValue();
 
+	void CopyMetadata(TSharedPtr<IPropertyHandle> Origin, TSharedPtr<IPropertyHandle> Target);
 
 	FSimpleDelegate BaseValueChanged;
 
