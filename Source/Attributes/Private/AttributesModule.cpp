@@ -9,7 +9,7 @@ DEFINE_LOG_CATEGORY(LogAttributes)
 
 void FAttributesModule::StartupModule()
 {
-	UE_LOG(LogAttributes, Warning, TEXT("Attributes: Log Started"));
+	UE_LOG(LogAttributes, Log, TEXT("Attributes: Log Started"));
 
 	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
 
@@ -18,7 +18,7 @@ void FAttributesModule::StartupModule()
 
 void FAttributesModule::ShutdownModule()
 {
-	UE_LOG(LogAttributes, Warning, TEXT("Attributes: Log Ended"));
+	UE_LOG(LogAttributes, Log, TEXT("Attributes: Log Ended"));
 	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
 	// we call this function before unloading the module.
 
