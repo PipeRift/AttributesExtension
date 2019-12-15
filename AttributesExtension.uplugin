@@ -10,7 +10,7 @@
 	"CreatedByURL": "http://piperift.com/",
 	"DocsURL": "https://piperift.com/AttributesExtension/",
 	"SupportURL": "info@piperift.com",
-	"EngineVersion": "4.23",
+	"EngineVersion": "4.24",
 	"CanContainContent":  false,
 	"IsBetaVersion": false,
 	"Modules": [
@@ -22,7 +22,6 @@
 				"Win64",
 				"Win32",
 				"Linux",
-				"HTML5",
 				"Android",
 				"PS4",
 				"XboxOne",
@@ -37,7 +36,6 @@
 				"Win64",
 				"Win32",
 				"Linux",
-				"HTML5",
 				"Android",
 				"PS4",
 				"XboxOne",
@@ -46,7 +44,7 @@
 		},
 		{
 			"Name" : "AttributesTest",
-			"Type" : "Developer",
+			"Type" : "DeveloperTool",
 			"LoadingPhase" : "PreDefault",
 			"WhitelistPlatforms": [
 				"Win64",
