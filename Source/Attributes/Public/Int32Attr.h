@@ -42,6 +42,7 @@ public:
 
 	/* Get Attribute final value */
 	FORCEINLINE operator int32() const { return GetValue(); }
+	FORCEINLINE int32 operator()() const { return GetValue(); }
 
 	FORCEINLINE int32 operator+(const int32 Other) const { return GetValue() + Other; }
 

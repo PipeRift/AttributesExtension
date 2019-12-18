@@ -43,6 +43,7 @@ public:
 
 	/* Get Attribute final value */
 	FORCEINLINE operator float() const { return GetValue(); }
+	FORCEINLINE float operator()() const { return GetValue(); }
 
 	FORCEINLINE float operator+(const float Other) const { return GetValue() + Other; }
 
