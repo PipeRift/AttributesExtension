@@ -10,7 +10,7 @@
 	"CreatedByURL": "http://piperift.com/",
 	"DocsURL": "https://piperift.com/AttributesExtension/",
 	"SupportURL": "info@piperift.com",
-	"EngineVersion": "4.25",
+	"EngineVersion": "4.24",
 	"CanContainContent":  false,
 	"IsBetaVersion": false,
 	"Modules": [
