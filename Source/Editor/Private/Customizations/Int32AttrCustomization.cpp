@@ -1,10 +1,10 @@
-// Copyright 2015-2019 Piperift. All Rights Reserved.
+// Copyright 2015-2020 Piperift. All Rights Reserved.
 
 #include "Customizations/Int32AttrCustomization.h"
-
 #include <DetailWidgetRow.h>
-#include <IDetailChildrenBuilder.h>
+#include <Editor.h>
 #include <Editor/UnrealEdEngine.h>
+#include <IDetailChildrenBuilder.h>
 
 #include "Int32Attr.h"
 
