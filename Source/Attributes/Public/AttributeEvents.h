@@ -28,7 +28,7 @@ struct FAttributeChangeInfo
 	GENERATED_BODY()
 
 	UPROPERTY(BlueprintReadOnly, Category = Change)
-	EAttributeOperation Operation;
+	EAttributeOperation Operation = EAttributeOperation::None;
 
 	UPROPERTY(BlueprintReadOnly, Category = Change)
 	FAttrModifier Modifier;
