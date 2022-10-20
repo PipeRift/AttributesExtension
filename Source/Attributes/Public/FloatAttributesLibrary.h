@@ -47,6 +47,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToFloat (FloatAttr)", CompactNodeTitle = "->", Keywords = "get value float", BlueprintAutocast))
 	static FORCEINLINE float Conv_AttributeToFloat(const FFloatAttr& Attribute) { return GetValue(Attribute); }
 
+	// Get final value as double
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToDouble (FloatAttr)", CompactNodeTitle = "->", Keywords = "get value double", BlueprintAutocast))
+	static FORCEINLINE double Conv_AttributeToDouble(const FFloatAttr& Attribute) { return GetValue(Attribute); }
+
 	// Get final value as String
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToString (FloatAttr)", CompactNodeTitle = "->", BlueprintAutocast))
 	static FORCEINLINE FString Conv_AttributeToString(const FFloatAttr& Attribute) {

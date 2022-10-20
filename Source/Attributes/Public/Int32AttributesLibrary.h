@@ -47,6 +47,10 @@ public:
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToInt (Int32Attr)", CompactNodeTitle = "->", Keywords = "get value int", BlueprintAutocast))
 	static FORCEINLINE int32 Conv_AttributeToInt(const FInt32Attr& Attribute) { return GetValue(Attribute); }
 
+	// Get final value as int64
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToInt64 (Int32Attr)", CompactNodeTitle = "->", Keywords = "get value int64", BlueprintAutocast))
+	static FORCEINLINE int64 Conv_AttributeToInt64(const FInt32Attr& Attribute) { return GetValue(Attribute); }
+
 	// Get final value as String
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToString (Int32Attr)", CompactNodeTitle = "->", BlueprintAutocast))
 	static FORCEINLINE FString Conv_AttributeToString(const FInt32Attr& Attribute) {
