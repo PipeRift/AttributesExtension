@@ -3,14 +3,14 @@
 	"Version": 6,
 	"VersionName": "1.3c",
 	"FriendlyName": "Attributes Extension",
-	"Description": "A lightweight attributes system for Unreal Engine 4",
+	"Description": "A lightweight attributes system",
 	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/1f0ba37099a14e228a1ce5e4891ed70a",
 	"Category": "Piperift",
 	"CreatedBy": "PipeRift",
 	"CreatedByURL": "http://piperift.com/",
 	"DocsURL": "https://piperift.com/AttributesExtension/",
 	"SupportURL": "info@piperift.com",
-	"EngineVersion": "4.26",
+	"EngineVersion": "5.0.0",
 	"CanContainContent":  false,
 	"IsBetaVersion": false,
 	"Modules": [
@@ -20,7 +20,6 @@
 			"LoadingPhase": "PreDefault",
 			"WhitelistPlatforms": [
 				"Win64",
-				"Win32",
 				"Linux",
 				"Android",
 				"PS4",
@@ -34,7 +33,6 @@
 			"LoadingPhase": "PostEngineInit",
 			"WhitelistPlatforms": [
 				"Win64",
-				"Win32",
 				"Linux",
 				"Android",
 				"PS4",
@@ -48,7 +46,6 @@
 			"LoadingPhase" : "PreDefault",
 			"WhitelistPlatforms": [
 				"Win64",
-				"Win32",
 				"Linux",
 				"Mac"
 			]
