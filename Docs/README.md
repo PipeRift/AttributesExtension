@@ -1,6 +1,6 @@
 # Attributes Extension
 
-**Attributes Extension** is a lightweight plugin that adds a very **intuitive, easy and flexible attribute system** to UE4.
+**Attributes Extension** is a lightweight plugin that adds a very **intuitive, easy and flexible attribute system** to UE4 and UE5.
 
 If you like our plugins, consider becoming a Patron. It will go a long way in helping me create more awesome tech!
 
@@ -8,7 +8,7 @@ If you like our plugins, consider becoming a Patron. It will go a long way in he
 
 ### Why Attributes?
 
-This plugin is not a damage system, or a spells system, not even a combat system. It only, strictly, provides **variable, non-destructive and efficient attributes** to UE4. This is its only task, and it does it very well.
+This plugin is not a damage system, or a spells system, not even a combat system. It only, strictly, provides **variable, non-destructive and efficient attributes** to UE4 and UE5. This is its only task, and it does it very well.
 
 It can be very easily integrated into custom game systems like buffs, areas, spells, abilities, or any other kind of gameplay mechanic.
 
