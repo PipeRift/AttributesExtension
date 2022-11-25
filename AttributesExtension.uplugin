@@ -10,7 +10,7 @@
 	"CreatedByURL": "http://piperift.com/",
 	"DocsURL": "https://piperift.com/AttributesExtension/",
 	"SupportURL": "info@piperift.com",
-	"EngineVersion": "4.26",
+	"EngineVersion": "5.1",
 	"CanContainContent":  false,
 	"IsBetaVersion": false,
 	"Modules": [
@@ -23,7 +23,7 @@
 				"Win32",
 				"Linux",
 				"Android",
-				"PS4",
+				"PS5",
 				"XboxOne",
 				"Switch"
 			]
@@ -37,7 +37,7 @@
 				"Win32",
 				"Linux",
 				"Android",
-				"PS4",
+				"PS5",
 				"XboxOne",
 				"Switch"
 			]
