@@ -38,7 +38,7 @@ void FInt32Attr::InternalRefreshValue(FAttributeChangeInfo&& ChangeInfo)
 	{
 		for (const auto& Mod : Category.Modifiers)
 		{
-			Mod.Apply(TempValue, BaseValue);
+			Mod.Apply(TempValue, double(BaseValue));
 		}
 	}
 

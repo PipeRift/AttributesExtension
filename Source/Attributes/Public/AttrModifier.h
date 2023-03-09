@@ -78,11 +78,9 @@ public:
 		return *this;
 	}
 
-	/** Apply changes to the value */
+	/** Applies changes to value */
 	void Apply(float& Value, float BaseValue) const;
-
-	/** Applies the modifier to the value. This version operates as double to avoid int32 precision lose */
-	void Apply(double& Value, int32 BaseValue) const;
+	void Apply(double& Value, double BaseValue) const;
 
 	/** Stack other modifiers values into this mod.
 	 * Now applying this modifier will be equivalent to applying all the others at the same time
