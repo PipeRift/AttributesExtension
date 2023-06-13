@@ -31,10 +31,8 @@ FAttrModifier::FAttrModifier(float Increment, float LastValueMultiplier, float B
 
 void FAttrModifier::Apply(float& Value, float BaseValue) const
 {
-	if (!FMath::IsNearlyZero(LastMultiplier))
-	{
-		Value *= 1.0f + LastMultiplier;
-	}
+	Value *= 1.0f + LastMultiplier;
+
 	if (!FMath::IsNearlyZero(BaseMultiplier))
 	{
 		Value += BaseMultiplier * BaseValue;
@@ -42,12 +40,10 @@ void FAttrModifier::Apply(float& Value, float BaseValue) const
 	Value += Increment;
 }
 
-void FAttrModifier::Apply(double& Value, int32 BaseValue) const
+void FAttrModifier::Apply(double& Value, double BaseValue) const
 {
-	if (!FMath::IsNearlyZero(LastMultiplier))
-	{
-		Value *= 1.0 + LastMultiplier;
-	}
+	Value *= 1.0 + LastMultiplier;
+
 	if (!FMath::IsNearlyZero(BaseMultiplier))
 	{
 		Value += BaseMultiplier * BaseValue;

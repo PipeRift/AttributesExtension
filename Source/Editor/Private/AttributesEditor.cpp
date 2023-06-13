@@ -4,6 +4,7 @@
 #include <AssetToolsModule.h>
 
 #include "Customizations/FloatAttrCustomization.h"
+#include "Customizations/DoubleAttrCustomization.h"
 #include "Customizations/Int32AttrCustomization.h"
 #include "Customizations/AttrModifierCustomization.h"
 #include "Customizations/AttrCategoryCustomization.h"
@@ -51,6 +52,7 @@ void FAttributesEditorModule::ShutdownModule()
 void FAttributesEditorModule::RegisterPropertyTypeCustomizations()
 {
 	RegisterCustomPropertyTypeLayout("FloatAttr", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FFloatAttrCustomization::MakeInstance));
+	RegisterCustomPropertyTypeLayout("DoubleAttr", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FDoubleAttrCustomization::MakeInstance));
 	RegisterCustomPropertyTypeLayout("Int32Attr", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FInt32AttrCustomization::MakeInstance));
 	RegisterCustomPropertyTypeLayout("AttrModifier", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FAttrModifierCustomization::MakeInstance));
 	RegisterCustomPropertyTypeLayout("AttrCategory", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FAttrCategoryCustomization::MakeInstance));

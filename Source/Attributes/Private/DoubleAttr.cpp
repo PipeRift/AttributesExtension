@@ -1,10 +1,10 @@
 // Copyright 2015-2020 Piperift. All Rights Reserved.
 
-#include "Int32Attr.h"
+#include "DoubleAttr.h"
 #include "AttributesModule.h"
 
 
-void FInt32Attr::SetBaseValue(int32 NewValue)
+void FDoubleAttr::SetBaseValue(double NewValue)
 {
 	if (NewValue != BaseValue)
 	{
@@ -19,30 +19,28 @@ void FInt32Attr::SetBaseValue(int32 NewValue)
 	}
 }
 
-void FInt32Attr::PostScriptConstruct()
+void FDoubleAttr::PostScriptConstruct()
 {
 	RefreshValue();
 }
 
-void FInt32Attr::InternalRefreshValue(FAttributeChangeInfo&& ChangeInfo)
+void FDoubleAttr::InternalRefreshValue(FAttributeChangeInfo&& ChangeInfo)
 {
-	const int32 LastValue = Value;
-	double TempValue = BaseValue;
+	const double LastValue = Value;
+	Value = BaseValue;
 
 	for (const auto& Mod : BaseModifiers)
 	{
-		Mod.Apply(TempValue, BaseValue);
+		Mod.Apply(Value, BaseValue);
 	}
 
 	for (const auto& Category : CategoryMods)
 	{
 		for (const auto& Mod : Category.Modifiers)
 		{
-			Mod.Apply(TempValue, double(BaseValue));
+			Mod.Apply(Value, BaseValue);
 		}
 	}
-
-	Value = FMath::RoundToInt(TempValue);
 
 	// Notify changes
 	OnModified.Broadcast(LastValue, ChangeInfo);

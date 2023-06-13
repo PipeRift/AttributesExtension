@@ -40,5 +40,8 @@ struct FAttributeChangeInfo
 DECLARE_DYNAMIC_DELEGATE_TwoParams(FFloatModifiedDelegate, float, LastValue, const FAttributeChangeInfo&, Modification);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FFloatModifiedMCDelegate, float, LastValue, const FAttributeChangeInfo&, Modification);
 
+DECLARE_DYNAMIC_DELEGATE_TwoParams(FDoubleModifiedDelegate, double, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDoubleModifiedMCDelegate, double, LastValue, const FAttributeChangeInfo&, Modification);
+
 DECLARE_DYNAMIC_DELEGATE_TwoParams(FInt32ModifiedDelegate, int32, LastValue, const FAttributeChangeInfo&, Modification);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInt32ModifiedMCDelegate, int32, LastValue, const FAttributeChangeInfo&, Modification);
