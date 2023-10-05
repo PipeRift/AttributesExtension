@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
@@ -6,6 +6,8 @@
 #include <Engine/World.h>
 
 #include "AttributesSettings.generated.h"
+
+
 
 struct FAttributeReplicationConfig
 {
@@ -25,7 +27,6 @@ class ATTRIBUTES_API UAttributesSettings : public UObject
 
 
 private:
-
 	UPROPERTY(config, EditAnywhere, Category = Modifiers, SaveGame)
 	TSet<FName> Categories;
 
@@ -39,21 +40,24 @@ private:
 	static FAttributeReplicationConfig Replication;
 
 public:
-
 	UAttributesSettings();
 
 	/**
-	* @return all categories as a reference
-	*/
-	const TSet<FName>& GetCategories() const { return Categories; }
+	 * @return all categories as a reference
+	 */
+	const TSet<FName>& GetCategories() const
+	{
+		return Categories;
+	}
 
 protected:
-
 	virtual void BeginDestroy() override;
 
 	void OnWorldInitialization(UWorld* World, const UWorld::InitializationValues IVS);
 
 public:
-
-	static const FAttributeReplicationConfig& GetReplication() { return Replication; }
+	static const FAttributeReplicationConfig& GetReplication()
+	{
+		return Replication;
+	}
 };

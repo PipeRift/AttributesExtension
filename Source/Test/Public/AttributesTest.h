@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
@@ -8,15 +8,16 @@
 class FAttributesTest : public IModuleInterface
 {
 public:
-
 	virtual void StartupModule() override {}
 	virtual void ShutdownModule() override {}
 
-	static inline FAttributesTest& Get() {
+	static inline FAttributesTest& Get()
+	{
 		return FModuleManager::LoadModuleChecked<FAttributesTest>("AttributesTest");
 	}
 
-	static inline bool IsAvailable() {
+	static inline bool IsAvailable()
+	{
 		return FModuleManager::Get().IsModuleLoaded("AttributesTest");
 	}
 };

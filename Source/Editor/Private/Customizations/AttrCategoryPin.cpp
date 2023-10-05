@@ -1,21 +1,20 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "Customizations/AttrCategoryPin.h"
-
-#include "Kismet2/KismetEditorUtilities.h"
-#include "EdGraph/EdGraphPin.h"
-#include "EdGraph/EdGraphSchema.h"
 
 #include "AttrCategory.h"
 #include "AttributesModule.h"
 #include "AttributesSettings.h"
+#include "EdGraph/EdGraphPin.h"
+#include "EdGraph/EdGraphSchema.h"
+#include "Kismet2/KismetEditorUtilities.h"
 
 
 void SAttrCategoryPin::Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj)
 {
 	FAttributesModule& Module = FAttributesModule::Get();
 
-	//Bind On Settings Changed event
+	// Bind On Settings Changed event
 	Module.OnModifiedSettings().BindRaw(this, &SAttrCategoryPin::UpdateItems, false);
 
 	SStringEnumPin::Construct(SStringEnumPin::FArguments(), InGraphPinObj);
@@ -23,7 +22,7 @@ void SAttrCategoryPin::Construct(const FArguments& InArgs, UEdGraphPin* InGraphP
 
 TSharedRef<SWidget> SAttrCategoryPin::GetDefaultValueWidget()
 {
-	//Get actual default value
+	// Get actual default value
 	ParseDefaultValue();
 
 	return SStringEnumPin::GetDefaultValueWidget();
@@ -34,11 +33,11 @@ void SAttrCategoryPin::ParseDefaultValue()
 	FString NameString = GraphPinObj->GetDefaultAsString();
 	if (NameString.StartsWith(TEXT("(")) && NameString.EndsWith(TEXT(")")))
 	{
-		//Remove ( and )
+		// Remove ( and )
 		NameString = NameString.LeftChop(1);
 		NameString = NameString.RightChop(1);
 
-		//Get parameter string value
+		// Get parameter string value
 		NameString.Split("=", nullptr, &NameString);
 		if (NameString.StartsWith(TEXT("\"")) && NameString.EndsWith(TEXT("\"")))
 		{
@@ -58,7 +57,7 @@ void SAttrCategoryPin::ParseDefaultValue()
 	}
 	else
 	{
-		DefaultNameValue = NO_ATTRCATEGORY_NAME;
+		DefaultNameValue = NAME_None;
 	}
 }
 
@@ -88,7 +87,8 @@ void SAttrCategoryPin::ApplyDefaultValue()
 void SAttrCategoryPin::GetEnumItems(TArray<FString>& Values)
 {
 	const UAttributesSettings* Settings = GetDefault<UAttributesSettings>();
-	if (!Settings) {
+	if (!Settings)
+	{
 		return;
 	}
 
@@ -97,8 +97,8 @@ void SAttrCategoryPin::GetEnumItems(TArray<FString>& Values)
 		Values.Add(Category.ToString());
 	}
 	// Make sure None is at the start
-	Values.Remove(NO_ATTRCATEGORY_NAME.ToString());
-	Values.Insert(NO_ATTRCATEGORY_NAME.ToString(), 0);
+	Values.Remove(FName(NAME_None).ToString());
+	Values.Insert(FName(NAME_None).ToString(), 0);
 }
 
 void SAttrCategoryPin::OnItemSelected(FString Value)
@@ -107,26 +107,26 @@ void SAttrCategoryPin::OnItemSelected(FString Value)
 
 	FName NameValue = FName(*Value);
 
-	//If Category not found, Set default value
-	if (NameValue != NO_ATTRCATEGORY_NAME && AllCategories.Contains(NameValue))
+	// If Category not found, Set default value
+	if (!NameValue.IsNone() && AllCategories.Contains(NameValue))
 		DefaultNameValue = NameValue;
 	else
-		DefaultNameValue = NO_ATTRCATEGORY_NAME;
+		DefaultNameValue = NAME_None;
 
 	ApplyDefaultValue();
 }
 
 FText SAttrCategoryPin::GetSelectedItem() const
 {
-	//Call parent but don't use it. This is for widget logic
+	// Call parent but don't use it. This is for widget logic
 	SStringEnumPin::GetSelectedItem();
 
 	const TSet<FName>& AllCategories = GetDefault<UAttributesSettings>()->GetCategories();
 
 	if (AllCategories.Contains(DefaultNameValue))
 	{
-		//Return name with prefix number
+		// Return name with prefix number
 		return FText::FromName(DefaultNameValue);
 	}
-	return FText::FromName(NO_ATTRCATEGORY_NAME);
+	return FText::FromName(NAME_None);
 }

@@ -1,14 +1,14 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "AttributesSettings.h"
+
 #include "AttributesModule.h"
 
 
 FAttributeReplicationConfig UAttributesSettings::Replication{};
 
 
-UAttributesSettings::UAttributesSettings()
-	: Super()
+UAttributesSettings::UAttributesSettings() : Super()
 {
 	Categories.Add(TEXT("Buff"));
 	Categories.Add(TEXT("Aura"));
@@ -26,5 +26,5 @@ void UAttributesSettings::BeginDestroy()
 void UAttributesSettings::OnWorldInitialization(UWorld* World, const UWorld::InitializationValues IVS)
 {
 	// Update replication settings
-	Replication = { bReplicateBaseValue, bReplicateAttributeModifiers };
+	Replication = {bReplicateBaseValue, bReplicateAttributeModifiers};
 }

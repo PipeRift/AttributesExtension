@@ -1,11 +1,11 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
+#include "AttrModifier.h"
+
 #include <CoreMinimal.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
-
-#include "AttrModifier.h"
 
 #include "ModifierAttributesLibrary.generated.h"
 
@@ -17,11 +17,17 @@ class ATTRIBUTES_API UModifierAttributesLibrary : public UBlueprintFunctionLibra
 
 	/** @return true when two Attributes are the same */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "=="))
-	static FORCEINLINE bool Is(const FAttrModifier& A, const FAttrModifier& B) { return A == B; }
+	static FORCEINLINE bool Is(const FAttrModifier& A, const FAttrModifier& B)
+	{
+		return A == B;
+	}
 
 	/** @return true when two Attributes are not the same */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "!="))
-	static FORCEINLINE bool IsNot(const FAttrModifier& A, const FAttrModifier& B) { return A != B; }
+	static FORCEINLINE bool IsNot(const FAttrModifier& A, const FAttrModifier& B)
+	{
+		return A != B;
+	}
 
 	/** Stack other modifiers values into this mod.
 	 * Now applying this modifier will be equivalent to applying all the others at the same time
@@ -29,7 +35,8 @@ class ATTRIBUTES_API UModifierAttributesLibrary : public UBlueprintFunctionLibra
 	 * @return the resulting stacked mod
 	 */
 	UFUNCTION(BlueprintPure, Category = "Attributes|Modifiers")
-	static void StackMods(UPARAM(ref) FAttrModifier& TargetMod, const TArray<FAttrModifier>& Mods) {
+	static void StackMods(UPARAM(ref) FAttrModifier& TargetMod, const TArray<FAttrModifier>& Mods)
+	{
 		TargetMod.StackMods(Mods);
 	}
 
@@ -39,12 +46,14 @@ class ATTRIBUTES_API UModifierAttributesLibrary : public UBlueprintFunctionLibra
 	 * @param OtherMod to be stacked into TargetMod
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Attributes|Modifiers")
-	static void StackMod(UPARAM(ref) FAttrModifier& TargetMod, const FAttrModifier& OtherMod) {
+	static void StackMod(UPARAM(ref) FAttrModifier& TargetMod, const FAttrModifier& OtherMod)
+	{
 		TargetMod.StackMod(OtherMod);
 	}
 
 	UFUNCTION(BlueprintCallable, Category = "Attributes|Modifiers", meta = (Keywords = "copy"))
-	static void SetValues(UPARAM(ref) FAttrModifier& Target, const FAttrModifier& Values) {
+	static void SetValues(UPARAM(ref) FAttrModifier& Target, const FAttrModifier& Values)
+	{
 		Target.SetValues(Values);
 	}
 };

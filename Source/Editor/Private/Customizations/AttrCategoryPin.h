@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
@@ -8,34 +8,34 @@
 class SAttrCategoryPin : public SStringEnumPin
 {
 public:
-    SLATE_BEGIN_ARGS(SAttrCategoryPin) {}
-    SLATE_END_ARGS()
+	SLATE_BEGIN_ARGS(SAttrCategoryPin) {}
+	SLATE_END_ARGS()
 
 public:
-    void Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj);
+	void Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj);
 
-    //Display slate widget used for customization.
-    virtual TSharedRef<SWidget> GetDefaultValueWidget() override;
+	// Display slate widget used for customization.
+	virtual TSharedRef<SWidget> GetDefaultValueWidget() override;
 
 private:
-    void ParseDefaultValue();
-    void ApplyDefaultValue();
+	void ParseDefaultValue();
+	void ApplyDefaultValue();
 
 protected:
-    FName DefaultNameValue;
+	FName DefaultNameValue;
 
-    /** Returns all the enum items.
-    * This is for override purposes.
-    */
-    virtual void GetEnumItems(TArray<FString>& Values);
+	/** Returns all the enum items.
+	 * This is for override purposes.
+	 */
+	virtual void GetEnumItems(TArray<FString>& Values);
 
-    /** Called when selection changed.
-    * This is for override purposes.
-    */
-    virtual void OnItemSelected(FString Value);
+	/** Called when selection changed.
+	 * This is for override purposes.
+	 */
+	virtual void OnItemSelected(FString Value);
 
-    /** Returns the actually selected item.
-    * This is for override purposes.
-    */
-    virtual FText GetSelectedItem() const;
+	/** Returns the actually selected item.
+	 * This is for override purposes.
+	 */
+	virtual FText GetSelectedItem() const;
 };

@@ -1,15 +1,16 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "AttrCategory.h"
-#include "AttributesSettings.h"
+
 #include "AttributesModule.h"
+#include "AttributesSettings.h"
 
 
-const FAttrCategory FAttrCategory::NoCategory{ NO_ATTRCATEGORY_NAME };
+const FAttrCategory FAttrCategory::NoCategory{NAME_None};
 
 bool FAttrCategory::IsNone() const
 {
-	if (Name == NO_ATTRCATEGORY_NAME)
+	if (Name.IsNone())
 		return true;
 
 	return !GetDefault<UAttributesSettings>()->GetCategories().Contains(Name);

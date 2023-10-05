@@ -1,15 +1,14 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
-#include <CoreMinimal.h>
-
 #include "AttrModifier.h"
 #include "AttributesSettings.h"
+
+#include <CoreMinimal.h>
+
 #include "AttrCategory.generated.h"
 
-
-#define NO_ATTRCATEGORY_NAME FName{}
 
 /**
  * Represents an existing AttrCategory from the database
@@ -23,27 +22,27 @@ struct ATTRIBUTES_API FAttrCategory
 
 
 public:
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Category)
 	FName Name;
 
 
 public:
-
-	FAttrCategory() : Name(NO_ATTRCATEGORY_NAME) {}
-
-	FAttrCategory(FName Name)
-		: Name(Name)
-	{}
+	FAttrCategory() {}
+	FAttrCategory(FName Name) : Name(Name) {}
 
 	bool IsNone() const;
 
 	/**
 	 * Operator overloading & Hashes
 	 */
-	FORCEINLINE bool operator==(const FAttrCategory& Other) const { return Name == Other.Name; }
-	FORCEINLINE bool operator!=(const FAttrCategory& Other) const { return !(*this == Other); }
-
+	bool operator==(const FAttrCategory& Other) const
+	{
+		return Name == Other.Name;
+	}
+	bool operator!=(const FAttrCategory& Other) const
+	{
+		return !(*this == Other);
+	}
 	friend uint32 GetTypeHash(const FAttrCategory& InRelation)
 	{
 		return GetTypeHash(InRelation.Name);
@@ -69,18 +68,14 @@ struct FAttributeCategoryMods
 	TArray<FAttrModifier> Modifiers;
 
 
-	FAttributeCategoryMods()
-		: Category(FAttrCategory::NoCategory)
-	{}
-	FAttributeCategoryMods(const FAttrCategory& Category)
-		: Category(Category)
-	{}
+	FAttributeCategoryMods() : Category(FAttrCategory::NoCategory) {}
+	FAttributeCategoryMods(const FAttrCategory& Category) : Category(Category) {}
 
 	friend bool operator<(const FAttributeCategoryMods& Self, const FAttributeCategoryMods& Other)
 	{
 		const TSet<FName>& Categories = GetDefault<UAttributesSettings>()->GetCategories();
 
-		const FSetElementId SelfId  = Categories.FindId(Self.Category.Name);
+		const FSetElementId SelfId = Categories.FindId(Self.Category.Name);
 		const FSetElementId OtherId = Categories.FindId(Other.Category.Name);
 
 		// Order by index. INDEX_NONE will be have priority (-1)
@@ -88,8 +83,14 @@ struct FAttributeCategoryMods
 	}
 
 	/**
-	* Operator overloading & Hashes
-	*/
-	FORCEINLINE bool operator==(const FAttrCategory& Other) const { return Category == Other; }
-	FORCEINLINE bool operator!=(const FAttrCategory& Other) const { return !(*this == Other); }
+	 * Operator overloading & Hashes
+	 */
+	FORCEINLINE bool operator==(const FAttrCategory& Other) const
+	{
+		return Category == Other;
+	}
+	FORCEINLINE bool operator!=(const FAttrCategory& Other) const
+	{
+		return !(*this == Other);
+	}
 };

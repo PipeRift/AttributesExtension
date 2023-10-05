@@ -1,11 +1,11 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
-#include <CoreMinimal.h>
-
-#include "AttrModifier.h"
 #include "AttrCategory.h"
+#include "AttrModifier.h"
+
+#include <CoreMinimal.h>
 
 #include "AttributeEvents.generated.h"
 
@@ -37,11 +37,17 @@ struct FAttributeChangeInfo
 	FAttrCategory Category;
 };
 
-DECLARE_DYNAMIC_DELEGATE_TwoParams(FFloatModifiedDelegate, float, LastValue, const FAttributeChangeInfo&, Modification);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FFloatModifiedMCDelegate, float, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(
+	FFloatModifiedDelegate, float, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FFloatModifiedMCDelegate, float, LastValue, const FAttributeChangeInfo&, Modification);
 
-DECLARE_DYNAMIC_DELEGATE_TwoParams(FDoubleModifiedDelegate, double, LastValue, const FAttributeChangeInfo&, Modification);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDoubleModifiedMCDelegate, double, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(
+	FDoubleModifiedDelegate, double, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FDoubleModifiedMCDelegate, double, LastValue, const FAttributeChangeInfo&, Modification);
 
-DECLARE_DYNAMIC_DELEGATE_TwoParams(FInt32ModifiedDelegate, int32, LastValue, const FAttributeChangeInfo&, Modification);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInt32ModifiedMCDelegate, int32, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_DELEGATE_TwoParams(
+	FInt32ModifiedDelegate, int32, LastValue, const FAttributeChangeInfo&, Modification);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(
+	FInt32ModifiedMCDelegate, int32, LastValue, const FAttributeChangeInfo&, Modification);

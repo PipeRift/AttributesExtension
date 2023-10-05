@@ -1,10 +1,11 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "BaseAttr.h"
+
 #include "AttributesModule.h"
 
 
-uint32 FBaseAttr::IdCount{ 0 };
+uint32 FBaseAttr::IdCount{0};
 
 
 void FBaseAttr::AddModifier(const FAttrModifier& Modifier, const FAttrCategory& Category)
@@ -18,31 +19,30 @@ void FBaseAttr::AddModifier(const FAttrModifier& Modifier, const FAttrCategory& 
 	{
 		BaseModifiers.Add(Modifier);
 	}
-	else if(!Category.IsNone())
+	else if (!Category.IsNone())
 	{
 		int32 Index = CategoryMods.IndexOfByKey(Category);
 		if (Index == INDEX_NONE)
 		{
 			// Add category if non existent
-			Index = CategoryMods.HeapPush({ Category });
+			Index = CategoryMods.HeapPush({Category});
 		}
 
 		CategoryMods[Index].Modifiers.Add(Modifier);
 	}
 	else
 	{
-		UE_LOG(LogAttributes, Warning, TEXT("Attributes: tried to add a modifier to the unexisting category '%s'"), *Category.Name.ToString());
+		UE_LOG(LogAttributes, Warning,
+			TEXT("Attributes: tried to add a modifier to the unexisting category '%s'"),
+			*Category.Name.ToString());
 		return;
 	}
 
-	InternalRefreshValue({
-		EAttributeOperation::AddedMod,
-		Modifier,
-		Category
-	});
+	InternalRefreshValue({EAttributeOperation::AddedMod, Modifier, Category});
 }
 
-bool FBaseAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCategory& Category, bool bRemoveFromAllCategories)
+bool FBaseAttr::RemoveModifier(
+	const FAttrModifier& Modifier, const FAttrCategory& Category, bool bRemoveFromAllCategories)
 {
 	bool bChanged = false;
 
@@ -62,7 +62,7 @@ bool FBaseAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCategor
 				// Remove category if empty
 				CategoryMods.HeapRemoveAt(CatId);
 
-				//Reduce Id, because current one doesn't exist anymore
+				// Reduce Id, because current one doesn't exist anymore
 				--CatId;
 			}
 		}
@@ -89,18 +89,17 @@ bool FBaseAttr::RemoveModifier(const FAttrModifier& Modifier, const FAttrCategor
 		}
 		else
 		{
-			UE_LOG(LogAttributes, Warning, TEXT("Attributes: Tried to remove with modifier category '%s', but it doesnt exist on the attribute"), *Category.Name.ToString());
+			UE_LOG(LogAttributes, Warning,
+				TEXT("Attributes: Tried to remove with modifier category '%s', but it doesnt exist on the "
+					 "attribute"),
+				*Category.Name.ToString());
 			return false;
 		}
 	}
 
 	if (bChanged)
 	{
-		InternalRefreshValue({
-			EAttributeOperation::RemovedMod,
-			Modifier,
-			Category
-		});
+		InternalRefreshValue({EAttributeOperation::RemovedMod, Modifier, Category});
 	}
 	return bChanged;
 }
@@ -142,11 +141,7 @@ void FBaseAttr::CleanCategoryModifiers(const FAttrCategory& Category)
 			BaseModifiers.Empty();
 
 			// Notify
-			InternalRefreshValue({
-				EAttributeOperation::RemovedCategory,
-				{},
-				Category
-			});
+			InternalRefreshValue({EAttributeOperation::RemovedCategory, {}, Category});
 		}
 	}
 	else
@@ -158,15 +153,14 @@ void FBaseAttr::CleanCategoryModifiers(const FAttrCategory& Category)
 			CategoryMods.HeapRemoveAt(Index);
 
 			// Notify
-			InternalRefreshValue({
-				EAttributeOperation::RemovedCategory,
-				{},
-				Category
-			});
+			InternalRefreshValue({EAttributeOperation::RemovedCategory, {}, Category});
 		}
 		else
 		{
-			UE_LOG(LogAttributes, Warning, TEXT("Attributes: Tried to remove all modifiers of category '%s', but it didnt exist on the attribute"), *Category.Name.ToString());
+			UE_LOG(LogAttributes, Warning,
+				TEXT("Attributes: Tried to remove all modifiers of category '%s', but it didnt exist on the "
+					 "attribute"),
+				*Category.Name.ToString());
 			return;
 		}
 	}
@@ -180,10 +174,6 @@ void FBaseAttr::CleanModifiers()
 		BaseModifiers.Empty();
 		CategoryMods.Empty();
 
-		InternalRefreshValue({
-			EAttributeOperation::RemovedAllMods,
-			{},
-			FAttrCategory::NoCategory
-		});
+		InternalRefreshValue({EAttributeOperation::RemovedAllMods, {}, FAttrCategory::NoCategory});
 	}
 }

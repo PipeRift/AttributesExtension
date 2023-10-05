@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
@@ -10,21 +10,24 @@ class FAttrModifierCustomization : public IPropertyTypeCustomization
 {
 public:
 	/**
-	* Creates a new instance.
-	*
-	* @return A new struct customization for Anchor Type.
-	*/
+	 * Creates a new instance.
+	 *
+	 * @return A new struct customization for Anchor Type.
+	 */
 	static TSharedRef<IPropertyTypeCustomization> MakeInstance()
 	{
 		return MakeShareable(new FAttrModifierCustomization);
 	}
 
 	/** IPropertyTypeCustomization interface */
-	virtual void CustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle, class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils) override;
-	virtual void CustomizeChildren(TSharedRef<class IPropertyHandle> StructPropertyHandle, class IDetailChildrenBuilder& StructBuilder, IPropertyTypeCustomizationUtils& StructCustomizationUtils) override;
+	virtual void CustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle,
+		class FDetailWidgetRow& HeaderRow,
+		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override;
+	virtual void CustomizeChildren(TSharedRef<class IPropertyHandle> StructPropertyHandle,
+		class IDetailChildrenBuilder& StructBuilder,
+		IPropertyTypeCustomizationUtils& StructCustomizationUtils) override;
 
 protected:
-
 	FText GetValueHelpText() const;
 
 
@@ -33,4 +36,3 @@ protected:
 	TSharedPtr<IPropertyHandle> LastMultiplierHandle;
 	TSharedPtr<IPropertyHandle> BaseMultiplierHandle;
 };
-

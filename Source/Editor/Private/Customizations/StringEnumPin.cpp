@@ -1,11 +1,11 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "Customizations/StringEnumPin.h"
 
-#include "Kismet2/KismetEditorUtilities.h"
-
 #include "EdGraph/EdGraphPin.h"
 #include "EdGraph/EdGraphSchema.h"
+#include "Kismet2/KismetEditorUtilities.h"
+
 
 
 void SStringEnumPin::Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj)
@@ -17,32 +17,26 @@ TSharedRef<SWidget> SStringEnumPin::GetDefaultValueWidget()
 {
 	UpdateItems();
 
-	return SNew(SBox)
-	.MaxDesiredHeight(20.f)
-	[
-		SAssignNew(ComboBox, SComboBox<TSharedPtr<FString>>)
-		.ContentPadding(0.f)
-		.OptionsSource(&CachedItems)
-		.OnGenerateWidget(this, &SStringEnumPin::HandleStringEnumComboBoxGenerateWidget)
-		.OnSelectionChanged(this, &SStringEnumPin::OnSelectionChanged)
-		[
-			SNew(STextBlock)
-			.Text(this, &SStringEnumPin::GetSelectedItem)
-		]
-	];
+	return SNew(SBox).MaxDesiredHeight(
+		20.f)[SAssignNew(ComboBox, SComboBox<TSharedPtr<FString>>)
+				  .ContentPadding(0.f)
+				  .OptionsSource(&CachedItems)
+				  .OnGenerateWidget(this, &SStringEnumPin::HandleStringEnumComboBoxGenerateWidget)
+				  .OnSelectionChanged(this, &SStringEnumPin::OnSelectionChanged)
+					  [SNew(STextBlock).Text(this, &SStringEnumPin::GetSelectedItem)]];
 }
 
 TSharedRef<SWidget> SStringEnumPin::HandleStringEnumComboBoxGenerateWidget(TSharedPtr<FString> Item)
 {
-	return SNew(STextBlock)
-		.Text(FText::FromString(*Item));
+	return SNew(STextBlock).Text(FText::FromString(*Item));
 }
 
 /** Update the root data on a change of selection */
 void SStringEnumPin::OnSelectionChanged(TSharedPtr<FString> SelectedItem, ESelectInfo::Type SelectInfo)
 {
-	if (SelectedItem.IsValid()) {
-		//UpdateItems();
+	if (SelectedItem.IsValid())
+	{
+		// UpdateItems();
 		OnItemSelected(*SelectedItem);
 	}
 }
@@ -54,7 +48,7 @@ void SStringEnumPin::UpdateItems(bool bRefresh)
 
 	CachedItems.Empty();
 
-	//Convert FString to Shared Ptrs and Populate the array
+	// Convert FString to Shared Ptrs and Populate the array
 	for (auto It = Items.CreateConstIterator(); It; ++It)
 	{
 		if (!(*It).IsEmpty())
@@ -64,7 +58,8 @@ void SStringEnumPin::UpdateItems(bool bRefresh)
 		}
 	}
 
-	if (bRefresh && ComboBox.IsValid()) {
+	if (bRefresh && ComboBox.IsValid())
+	{
 		ComboBox->RefreshOptions();
 	}
 }
@@ -76,7 +71,8 @@ void SStringEnumPin::GetEnumItems(TArray<FString>& Values)
 
 FText SStringEnumPin::GetSelectedItem() const
 {
-	if (ComboBox.IsValid()) {
+	if (ComboBox.IsValid())
+	{
 		ComboBox->SetVisibility(IsConnected() ? EVisibility::Hidden : EVisibility::Visible);
 	}
 

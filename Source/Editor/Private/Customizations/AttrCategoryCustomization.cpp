@@ -1,16 +1,17 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "Customizations/AttrCategoryCustomization.h"
 
-#include "AttributesModule.h"
-
 #include "AttrCategory.h"
+#include "AttributesModule.h"
 #include "AttributesSettings.h"
+
 
 #define LOCTEXT_NAMESPACE "FAttrCategoryCustomization"
 
 
-bool FAttrCategoryCustomization::CanCustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle, class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
+bool FAttrCategoryCustomization::CanCustomizeHeader(TSharedRef<class IPropertyHandle> StructPropertyHandle,
+	class FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& StructCustomizationUtils)
 {
 	StructHandle = StructPropertyHandle;
 	NameHandle = StructPropertyHandle->GetChildHandle("Name");
@@ -18,14 +19,15 @@ bool FAttrCategoryCustomization::CanCustomizeHeader(TSharedRef<class IPropertyHa
 	if (NameHandle->IsValidHandle())
 	{
 		FAttributesModule& Module = FAttributesModule::Get();
-		//Bind On Settings Changed event
+		// Bind On Settings Changed event
 		Module.OnModifiedSettings().BindRaw(this, &FAttrCategoryCustomization::UpdateItems);
 		return true;
 	}
 	return false;
 }
 
-void FAttrCategoryCustomization::GetAllItems(TArray<FString>& Values) const {
+void FAttrCategoryCustomization::GetAllItems(TArray<FString>& Values) const
+{
 	const UAttributesSettings* Settings = GetDefault<UAttributesSettings>();
 	if (!Settings)
 		return;
@@ -35,8 +37,8 @@ void FAttrCategoryCustomization::GetAllItems(TArray<FString>& Values) const {
 		Values.Add(Category.ToString());
 	}
 	// Make sure None is at the start
-	Values.Remove(NO_ATTRCATEGORY_NAME.ToString());
-	Values.Insert(NO_ATTRCATEGORY_NAME.ToString(), 0);
+	Values.Remove(FName{}.ToString());
+	Values.Insert(FName{}.ToString(), 0);
 }
 
 void FAttrCategoryCustomization::OnItemSelected(FString Value)
@@ -45,14 +47,14 @@ void FAttrCategoryCustomization::OnItemSelected(FString Value)
 
 	FName NameValue = FName(*Value);
 
-	if (NameValue != NO_ATTRCATEGORY_NAME && AllCategories.Contains(NameValue))
+	if (!NameValue.IsNone() && AllCategories.Contains(NameValue))
 	{
 		NameHandle->SetValue(NameValue);
 	}
 	else
 	{
-		//Priority not found. Set default value
-		NameHandle->SetValue(NO_ATTRCATEGORY_NAME);
+		// Priority not found. Set default value
+		NameHandle->SetValue(NAME_None);
 	}
 }
 
@@ -69,7 +71,7 @@ FText FAttrCategoryCustomization::GetSelectedText() const
 		{
 			return FText::FromName(Name);
 		}
-		return FText::FromName(NO_ATTRCATEGORY_NAME);
+		return FText::FromName(NAME_None);
 	}
 	return LOCTEXT("MultipleValues", "Multiple Values");
 }

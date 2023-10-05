@@ -1,8 +1,9 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
 #include <CoreMinimal.h>
+
 #include "AttrModifier.generated.h"
 
 
@@ -12,9 +13,10 @@ struct FFloatAttr;
 UENUM(BlueprintType)
 enum class EModifierMask : uint8
 {
-	Increment,      // X += Value  | Sums a value to the attribute
-	LastMultiplier, // X += X * Cof  | Adds the incremental coefficient of the last modified value.
-	BaseMultiplier  // X += Base * Cof  | Adds the incremental coefficient of the base value of the attribute.
+	Increment,		   // X += Value  | Sums a value to the attribute
+	LastMultiplier,	   // X += X * Cof  | Adds the incremental coefficient of the last modified value.
+	BaseMultiplier	   // X += Base * Cof  | Adds the incremental coefficient of the base value of the
+					   // attribute.
 };
 
 
@@ -28,7 +30,6 @@ struct ATTRIBUTES_API FAttrModifier
 	/* PROPERTIES                                                           */
 	/************************************************************************/
 protected:
-
 	UPROPERTY(BlueprintReadOnly, Category = Modifier)
 	FGuid Guid;
 
@@ -37,17 +38,19 @@ protected:
 	bool bNetDirty_Guid = true;
 
 public:
-
 	// X += Value  | Sums a value to the attribute
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (ColumnWidth = "70", Delta = "0.01"))
+	UPROPERTY(
+		EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (ColumnWidth = "70", Delta = "0.01"))
 	float Increment = 0.f;
 
 	// X += X * Cof  | Adds the incremental coefficient of the last modified value.
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (ColumnWidth = "70", UIMin = "-1.0", UIMax = "1.0", Delta="0.05", Units = "x"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier,
+		meta = (ColumnWidth = "70", UIMin = "-1.0", UIMax = "1.0", Delta = "0.05", Units = "x"))
 	float LastMultiplier = 0.f;
 
 	// X += Base * Cof  | Adds the incremental coefficient of the base value of the attribute.
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier, meta = (UIMin = "-1.0", UIMax = "1.0", Delta = "0.05", Units = "x"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Modifier,
+		meta = (UIMin = "-1.0", UIMax = "1.0", Delta = "0.05", Units = "x"))
 	float BaseMultiplier = 0.f;
 
 
@@ -61,8 +64,14 @@ public:
 
 	FAttrModifier(float Increment, float LastValueMultiplier = 0.f, float BaseValueMultiplier = 0.f);
 
-	FAttrModifier(FAttrModifier&& Other) : Guid(Other.Guid) { SetValues(Other); }
-	FAttrModifier(const FAttrModifier& Other) : Guid(Other.Guid) { SetValues(Other); }
+	FAttrModifier(FAttrModifier&& Other) : Guid(Other.Guid)
+	{
+		SetValues(Other);
+	}
+	FAttrModifier(const FAttrModifier& Other) : Guid(Other.Guid)
+	{
+		SetValues(Other);
+	}
 	FAttrModifier& operator=(FAttrModifier&& Other)
 	{
 		Guid = Other.Guid;
@@ -92,12 +101,15 @@ public:
 	 */
 	void StackMod(const FAttrModifier& OtherMod);
 
-	//compare two modifications by guid
+	// compare two modifications by guid
 	FORCEINLINE bool operator==(const FAttrModifier& Other) const
 	{
 		return Guid == Other.Guid;
 	}
-	FORCEINLINE bool operator!=(const FAttrModifier& Other) const { return !(*this == Other); }
+	FORCEINLINE bool operator!=(const FAttrModifier& Other) const
+	{
+		return !(*this == Other);
+	}
 
 	void SetValues(FAttrModifier&& Other)
 	{
@@ -118,7 +130,7 @@ public:
 	bool IsEmpty() const;
 };
 
-template<>
+template <>
 struct TStructOpsTypeTraits<FAttrModifier> : public TStructOpsTypeTraitsBase2<FAttrModifier>
 {
 	enum
@@ -126,7 +138,7 @@ struct TStructOpsTypeTraits<FAttrModifier> : public TStructOpsTypeTraitsBase2<FA
 		WithCopy = true,
 		WithNetSerializer = true,
 		WithNetSharedSerialization = true,
-		//WithIdenticalViaEquality = true
+		// WithIdenticalViaEquality = true
 	};
 };
 
@@ -134,10 +146,8 @@ struct TStructOpsTypeTraits<FAttrModifier> : public TStructOpsTypeTraitsBase2<FA
 inline bool FAttrModifier::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bOutSuccess)
 {
 	// Only replicate non-zero values
-	uint8 Flags = (bNetDirty_Guid << 0)
-		| (!FMath::IsNearlyZero(Increment)      << 1)
-		| (!FMath::IsNearlyZero(LastMultiplier) << 2)
-		| (!FMath::IsNearlyZero(BaseMultiplier) << 3);
+	uint8 Flags = (bNetDirty_Guid << 0) | (!FMath::IsNearlyZero(Increment) << 1) |
+				  (!FMath::IsNearlyZero(LastMultiplier) << 2) | (!FMath::IsNearlyZero(BaseMultiplier) << 3);
 
 	Ar.SerializeBits(&Flags, 4);
 
@@ -169,7 +179,6 @@ inline bool FAttrModifier::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bO
 
 inline bool FAttrModifier::IsEmpty() const
 {
-	return FMath::IsNearlyZero(Increment)
-		&& FMath::IsNearlyZero(LastMultiplier)
-		&& FMath::IsNearlyZero(BaseMultiplier);
+	return FMath::IsNearlyZero(Increment) && FMath::IsNearlyZero(LastMultiplier) &&
+		   FMath::IsNearlyZero(BaseMultiplier);
 }

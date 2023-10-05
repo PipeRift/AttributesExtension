@@ -1,6 +1,7 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "Int32Attr.h"
+
 #include "AttributesModule.h"
 
 
@@ -11,11 +12,7 @@ void FInt32Attr::SetBaseValue(int32 NewValue)
 		BaseValue = NewValue;
 
 		// Notify
-		InternalRefreshValue({
-			EAttributeOperation::BaseValueChanged,
-			{},
-			FAttrCategory::NoCategory
-		});
+		InternalRefreshValue({EAttributeOperation::BaseValueChanged, {}, FAttrCategory::NoCategory});
 	}
 }
 

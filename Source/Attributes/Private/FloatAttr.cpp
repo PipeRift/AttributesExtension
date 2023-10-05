@@ -1,6 +1,7 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "FloatAttr.h"
+
 #include "AttributesModule.h"
 
 
@@ -11,11 +12,7 @@ void FFloatAttr::SetBaseValue(float NewValue)
 		BaseValue = NewValue;
 
 		// Notify
-		InternalRefreshValue({
-			EAttributeOperation::BaseValueChanged,
-			{},
-			FAttrCategory::NoCategory
-		});
+		InternalRefreshValue({EAttributeOperation::BaseValueChanged, {}, FAttrCategory::NoCategory});
 	}
 }
 

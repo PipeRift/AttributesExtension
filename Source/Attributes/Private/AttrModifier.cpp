@@ -1,23 +1,23 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "AttrModifier.h"
+
 #include "FloatAttr.h"
 
 
-FAttrModifier::FAttrModifier(EModifierMask Mode, float Value)
-	: Guid(FGuid::NewGuid())
+FAttrModifier::FAttrModifier(EModifierMask Mode, float Value) : Guid(FGuid::NewGuid())
 {
 	switch (Mode)
 	{
-	case EModifierMask::Increment:
-		Increment = Value;
-		break;
-	case EModifierMask::LastMultiplier:
-		LastMultiplier = Value;
-		break;
-	case EModifierMask::BaseMultiplier:
-		BaseMultiplier = Value;
-		break;
+		case EModifierMask::Increment:
+			Increment = Value;
+			break;
+		case EModifierMask::LastMultiplier:
+			LastMultiplier = Value;
+			break;
+		case EModifierMask::BaseMultiplier:
+			BaseMultiplier = Value;
+			break;
 	}
 }
 
@@ -26,8 +26,7 @@ FAttrModifier::FAttrModifier(float Increment, float LastValueMultiplier, float B
 	, Increment(Increment)
 	, LastMultiplier(LastValueMultiplier)
 	, BaseMultiplier(BaseValueMultiplier)
-{
-}
+{}
 
 void FAttrModifier::Apply(float& Value, float BaseValue) const
 {

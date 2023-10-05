@@ -1,11 +1,11 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
+#include "Int32Attr.h"
+
 #include <CoreMinimal.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
-
-#include "Int32Attr.h"
 
 #include "Int32AttributesLibrary.generated.h"
 
@@ -19,14 +19,19 @@ class ATTRIBUTES_API UInt32AttributesLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
-
 	/** @return true when two Attributes are the same */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "=="))
-	static FORCEINLINE bool Is(const FInt32Attr& A, const FInt32Attr& B) { return A == B; }
+	static FORCEINLINE bool Is(const FInt32Attr& A, const FInt32Attr& B)
+	{
+		return A == B;
+	}
 
 	/** @return true when two Attributes are not the same */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "!="))
-	static FORCEINLINE bool IsNot(const FInt32Attr& A, const FInt32Attr& B) { return A != B; }
+	static FORCEINLINE bool IsNot(const FInt32Attr& A, const FInt32Attr& B)
+	{
+		return A != B;
+	}
 
 	/** @return true if two attributes have the same base value */
 	UFUNCTION(BlueprintPure, Category = Attributes)
@@ -41,15 +46,25 @@ public:
 	 * @return the final value
 	 */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (Keywords = "get value int total final"))
-	static FORCEINLINE int32 GetValue(const FInt32Attr& Attribute) { return Attribute.GetValue(); }
+	static FORCEINLINE int32 GetValue(const FInt32Attr& Attribute)
+	{
+		return Attribute.GetValue();
+	}
 
 	// Get final value
-	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToInt (Int32Attr)", CompactNodeTitle = "->", Keywords = "get value int", BlueprintAutocast))
-	static FORCEINLINE int32 Conv_AttributeToInt(const FInt32Attr& Attribute) { return GetValue(Attribute); }
+	UFUNCTION(BlueprintPure, Category = Attributes,
+		meta = (DisplayName = "ToInt (Int32Attr)", CompactNodeTitle = "->", Keywords = "get value int",
+			BlueprintAutocast))
+	static FORCEINLINE int32 Conv_AttributeToInt(const FInt32Attr& Attribute)
+	{
+		return GetValue(Attribute);
+	}
 
 	// Get final value as String
-	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToString (Int32Attr)", CompactNodeTitle = "->", BlueprintAutocast))
-	static FORCEINLINE FString Conv_AttributeToString(const FInt32Attr& Attribute) {
+	UFUNCTION(BlueprintPure, Category = Attributes,
+		meta = (DisplayName = "ToString (Int32Attr)", CompactNodeTitle = "->", BlueprintAutocast))
+	static FORCEINLINE FString Conv_AttributeToString(const FInt32Attr& Attribute)
+	{
 		return FString::SanitizeFloat(GetValue(Attribute));
 	}
 
@@ -59,7 +74,10 @@ public:
 	 * @return the base value
 	 */
 	UFUNCTION(BlueprintPure, Category = Attributes)
-	static FORCEINLINE int GetBase(const FInt32Attr& Attribute) { return Attribute.GetBaseValue(); }
+	static FORCEINLINE int GetBase(const FInt32Attr& Attribute)
+	{
+		return Attribute.GetBaseValue();
+	}
 
 	/**
 	 * Set the base value of an attribute
@@ -67,7 +85,10 @@ public:
 	 * @param Value to set as the base value
 	 */
 	UFUNCTION(BlueprintCallable, Category = Attributes)
-	static void SetBase(UPARAM(ref) FInt32Attr & Attribute, int32 Value) { Attribute.SetBaseValue(Value); }
+	static void SetBase(UPARAM(ref) FInt32Attr& Attribute, int32 Value)
+	{
+		Attribute.SetBaseValue(Value);
+	}
 
 	/**
 	 * Adds a modifier to an attribute
@@ -76,7 +97,8 @@ public:
 	 * @param Category of the modifier (Optional)
 	 */
 	UFUNCTION(BlueprintCallable, Category = Attributes, meta = (AdvancedDisplay = "Category"))
-	static void AddModifier(UPARAM(ref) FInt32Attr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category)
+	static void AddModifier(
+		UPARAM(ref) FInt32Attr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category)
 	{
 		Attribute.AddModifier(Modifier, Category);
 	}
@@ -88,8 +110,10 @@ public:
 	 * @param Category of the modifier (Optional)
 	 * @return true if any modifier was removed
 	 */
-	UFUNCTION(BlueprintCallable, Category = Attributes, meta=(AdvancedDisplay="Category,bRemoveFromAllCategories"))
-	static FORCEINLINE bool RemoveModifier(UPARAM(ref) FInt32Attr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category, bool bRemoveFromAllCategories = false)
+	UFUNCTION(BlueprintCallable, Category = Attributes,
+		meta = (AdvancedDisplay = "Category,bRemoveFromAllCategories"))
+	static FORCEINLINE bool RemoveModifier(UPARAM(ref) FInt32Attr& Attribute, const FAttrModifier& Modifier,
+		const FAttrCategory Category, bool bRemoveFromAllCategories = false)
 	{
 		return Attribute.RemoveModifier(Modifier, Category, bRemoveFromAllCategories);
 	}
@@ -100,7 +124,8 @@ public:
 	 * @return Modifiers of a category as an Array
 	 */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (AdvancedDisplay = "Category"))
-	static void GetModifiers(const FInt32Attr& Attribute, const FAttrCategory Category, TArray<FAttrModifier>& Modifiers)
+	static void GetModifiers(
+		const FInt32Attr& Attribute, const FAttrCategory Category, TArray<FAttrModifier>& Modifiers)
 	{
 		Modifiers = Attribute.GetModifiers(Category);
 	}
@@ -145,12 +170,15 @@ public:
 	}
 
 protected:
+	UFUNCTION(BlueprintPure, Category = Attributes)
+	static void Make(int32 BaseValue, FInt32Attr& IntAttr)
+	{
+		IntAttr = {BaseValue};
+	}
 
 	UFUNCTION(BlueprintPure, Category = Attributes)
-	static void Make(int32 BaseValue, FInt32Attr& IntAttr) { IntAttr = { BaseValue }; }
-
-	UFUNCTION(BlueprintPure, Category = Attributes)
-	static void Break(const FInt32Attr& IntAttr, int32& BaseValue, int32& Value) {
+	static void Break(const FInt32Attr& IntAttr, int32& BaseValue, int32& Value)
+	{
 		BaseValue = IntAttr.GetBaseValue();
 		Value = IntAttr.GetValue();
 	}

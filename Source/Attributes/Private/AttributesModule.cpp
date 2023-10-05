@@ -1,7 +1,9 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #include "AttributesModule.h"
+
 #include "AttributesSettings.h"
+
 
 DEFINE_LOG_CATEGORY(LogAttributes)
 
@@ -11,7 +13,8 @@ void FAttributesModule::StartupModule()
 {
 	UE_LOG(LogAttributes, Log, TEXT("Attributes: Log Started"));
 
-	// This code will execute after your module is loaded into memory; the exact timing is specified in the .uplugin file per-module
+	// This code will execute after your module is loaded into memory; the exact timing is specified in the
+	// .uplugin file per-module
 
 	RegisterSettings();
 }
@@ -19,8 +22,8 @@ void FAttributesModule::StartupModule()
 void FAttributesModule::ShutdownModule()
 {
 	UE_LOG(LogAttributes, Log, TEXT("Attributes: Log Ended"));
-	// This function may be called during shutdown to clean up your module.  For modules that support dynamic reloading,
-	// we call this function before unloading the module.
+	// This function may be called during shutdown to clean up your module.  For modules that support dynamic
+	// reloading, we call this function before unloading the module.
 
 	if (UObjectInitialized())
 	{
@@ -41,8 +44,8 @@ void FAttributesModule::RegisterSettings()
 		ISettingsContainerPtr SettingsContainer = SettingsModule->GetContainer("Project");
 
 		// Register Attributes settings
-		ISettingsSectionPtr SettingsSection = SettingsModule->RegisterSettings("Project", "Game", "Attributes",
-			LOCTEXT("RuntimeAttributesSettingsName", "Attributes"),
+		ISettingsSectionPtr SettingsSection = SettingsModule->RegisterSettings("Project", "Game",
+			"Attributes", LOCTEXT("RuntimeAttributesSettingsName", "Attributes"),
 			LOCTEXT("RuntimeAttributesDescription", "Attributes configuration"),
 			GetMutableDefault<UAttributesSettings>());
 
@@ -74,7 +77,8 @@ bool FAttributesModule::HandleSettingsSaved()
 	UAttributesSettings* Settings = GetMutableDefault<UAttributesSettings>();
 	bool ResaveSettings = false;
 
-	if (ModifiedSettingsDelegate.IsBound()) {
+	if (ModifiedSettingsDelegate.IsBound())
+	{
 		ModifiedSettingsDelegate.Execute();
 	}
 

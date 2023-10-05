@@ -1,11 +1,11 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2023 Piperift. All Rights Reserved.
 
 #pragma once
 
+#include "DoubleAttr.h"
+
 #include <CoreMinimal.h>
 #include <Kismet/BlueprintFunctionLibrary.h>
-
-#include "DoubleAttr.h"
 
 #include "DoubleAttributesLibrary.generated.h"
 
@@ -19,14 +19,19 @@ class ATTRIBUTES_API UDoubleAttributesLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
-
 	/** @return true when two Attributes are the same */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "=="))
-	static FORCEINLINE bool Is(const FDoubleAttr& A, const FDoubleAttr& B) { return A == B; }
+	static FORCEINLINE bool Is(const FDoubleAttr& A, const FDoubleAttr& B)
+	{
+		return A == B;
+	}
 
 	/** @return true when two Attributes are not the same */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (CompactNodeTitle = "!="))
-	static FORCEINLINE bool IsNot(const FDoubleAttr& A, const FDoubleAttr& B) { return A != B; }
+	static FORCEINLINE bool IsNot(const FDoubleAttr& A, const FDoubleAttr& B)
+	{
+		return A != B;
+	}
 
 	/** @return true if two attributes have the same base value */
 	UFUNCTION(BlueprintPure, Category = Attributes)
@@ -41,15 +46,25 @@ public:
 	 * @return the final value
 	 */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (Keywords = "get value double total final"))
-	static FORCEINLINE double GetValue(const FDoubleAttr& Attribute) { return Attribute.GetValue(); }
+	static FORCEINLINE double GetValue(const FDoubleAttr& Attribute)
+	{
+		return Attribute.GetValue();
+	}
 
 	// Get final value
-	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToFloat (DoubleAttr)", CompactNodeTitle = "->", Keywords = "get value double", BlueprintAutocast))
-	static FORCEINLINE double Conv_AttributeToFloat(const FDoubleAttr& Attribute) { return GetValue(Attribute); }
+	UFUNCTION(BlueprintPure, Category = Attributes,
+		meta = (DisplayName = "ToFloat (DoubleAttr)", CompactNodeTitle = "->", Keywords = "get value double",
+			BlueprintAutocast))
+	static FORCEINLINE double Conv_AttributeToFloat(const FDoubleAttr& Attribute)
+	{
+		return GetValue(Attribute);
+	}
 
 	// Get final value as String
-	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToString (DoubleAttr)", CompactNodeTitle = "->", BlueprintAutocast))
-	static FORCEINLINE FString Conv_AttributeToString(const FDoubleAttr& Attribute) {
+	UFUNCTION(BlueprintPure, Category = Attributes,
+		meta = (DisplayName = "ToString (DoubleAttr)", CompactNodeTitle = "->", BlueprintAutocast))
+	static FORCEINLINE FString Conv_AttributeToString(const FDoubleAttr& Attribute)
+	{
 		return FString::SanitizeFloat(GetValue(Attribute));
 	}
 
@@ -59,7 +74,10 @@ public:
 	 * @return the base value
 	 */
 	UFUNCTION(BlueprintPure, Category = Attributes)
-	static FORCEINLINE double GetBase(const FDoubleAttr& Attribute) { return Attribute.GetBaseValue(); }
+	static FORCEINLINE double GetBase(const FDoubleAttr& Attribute)
+	{
+		return Attribute.GetBaseValue();
+	}
 
 	/**
 	 * Set the base value of an attribute
@@ -67,7 +85,10 @@ public:
 	 * @param Value to set as the base value
 	 */
 	UFUNCTION(BlueprintCallable, Category = Attributes)
-	static void SetBase(UPARAM(ref) FDoubleAttr& Attribute, double Value) { Attribute.SetBaseValue(Value); }
+	static void SetBase(UPARAM(ref) FDoubleAttr& Attribute, double Value)
+	{
+		Attribute.SetBaseValue(Value);
+	}
 
 	/**
 	 * Adds a modifier to an attribute
@@ -76,7 +97,8 @@ public:
 	 * @param Category of the modifier (Optional)
 	 */
 	UFUNCTION(BlueprintCallable, Category = Attributes, meta = (AdvancedDisplay = "Category"))
-	static void AddModifier(UPARAM(ref) FDoubleAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category)
+	static void AddModifier(
+		UPARAM(ref) FDoubleAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category)
 	{
 		Attribute.AddModifier(Modifier, Category);
 	}
@@ -88,8 +110,10 @@ public:
 	 * @param Category of the modifier (Optional)
 	 * @return true if any modifier was removed
 	 */
-	UFUNCTION(BlueprintCallable, Category = Attributes, meta=(AdvancedDisplay="Category,bRemoveFromAllCategories"))
-	static FORCEINLINE bool RemoveModifier(UPARAM(ref) FDoubleAttr& Attribute, const FAttrModifier& Modifier, const FAttrCategory Category, bool bRemoveFromAllCategories = false)
+	UFUNCTION(BlueprintCallable, Category = Attributes,
+		meta = (AdvancedDisplay = "Category,bRemoveFromAllCategories"))
+	static FORCEINLINE bool RemoveModifier(UPARAM(ref) FDoubleAttr& Attribute, const FAttrModifier& Modifier,
+		const FAttrCategory Category, bool bRemoveFromAllCategories = false)
 	{
 		return Attribute.RemoveModifier(Modifier, Category, bRemoveFromAllCategories);
 	}
@@ -100,7 +124,8 @@ public:
 	 * @return Modifiers of a category as an Array
 	 */
 	UFUNCTION(BlueprintPure, Category = Attributes, meta = (AdvancedDisplay = "Category"))
-	static void GetModifiers(const FDoubleAttr& Attribute, const FAttrCategory Category, TArray<FAttrModifier>& Modifiers)
+	static void GetModifiers(
+		const FDoubleAttr& Attribute, const FAttrCategory Category, TArray<FAttrModifier>& Modifiers)
 	{
 		Modifiers = Attribute.GetModifiers(Category);
 	}
@@ -145,12 +170,15 @@ public:
 	}
 
 protected:
+	UFUNCTION(BlueprintPure, Category = Attributes)
+	static void Make(double BaseValue, FDoubleAttr& DoubleAttr)
+	{
+		DoubleAttr = {BaseValue};
+	}
 
 	UFUNCTION(BlueprintPure, Category = Attributes)
-	static void Make(double BaseValue, FDoubleAttr& DoubleAttr) { DoubleAttr = { BaseValue }; }
-
-	UFUNCTION(BlueprintPure, Category = Attributes)
-	static void Break(const FDoubleAttr& DoubleAttr, double& BaseValue, double& Value) {
+	static void Break(const FDoubleAttr& DoubleAttr, double& BaseValue, double& Value)
+	{
 		BaseValue = DoubleAttr.GetBaseValue();
 		Value = DoubleAttr.GetValue();
 	}
