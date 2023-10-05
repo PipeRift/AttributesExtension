@@ -5,11 +5,12 @@ using System.IO;
 
 namespace UnrealBuildTool.Rules
 {
-	public class AttributesTest : ModuleRules {
+	public class AttributesTest : ModuleRules
+	{
 		public AttributesTest(ReadOnlyTargetRules Target) : base(Target)
 		{
 			PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-			bEnforceIWYU = true;
+			IWYUSupport = IWYUSupport.Full;
 
 			PublicDependencyModuleNames.AddRange(new string[]
 			{
