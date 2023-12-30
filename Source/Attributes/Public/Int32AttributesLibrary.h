@@ -60,6 +60,10 @@ public:
 		return GetValue(Attribute);
 	}
 
+	// Get final value as int64
+	UFUNCTION(BlueprintPure, Category = Attributes, meta = (DisplayName = "ToInt64 (Int32Attr)", CompactNodeTitle = "->", Keywords = "get value int64", BlueprintAutocast))
+	static FORCEINLINE int64 Conv_AttributeToInt64(const FInt32Attr& Attribute) { return GetValue(Attribute); }
+
 	// Get final value as String
 	UFUNCTION(BlueprintPure, Category = Attributes,
 		meta = (DisplayName = "ToString (Int32Attr)", CompactNodeTitle = "->", BlueprintAutocast))
