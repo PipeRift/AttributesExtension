@@ -1,11 +1,10 @@
-// Copyright 2015-2023 Piperift. All Rights Reserved.
+// Copyright 2015-2026 Piperift. All Rights Reserved.
 
 #include "Customizations/StringEnumPin.h"
 
 #include "EdGraph/EdGraphPin.h"
 #include "EdGraph/EdGraphSchema.h"
 #include "Kismet2/KismetEditorUtilities.h"
-
 
 
 void SStringEnumPin::Construct(const FArguments& InArgs, UEdGraphPin* InGraphPinObj)

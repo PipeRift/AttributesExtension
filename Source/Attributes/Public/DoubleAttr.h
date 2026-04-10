@@ -1,4 +1,4 @@
-// Copyright 2015-2023 Piperift. All Rights Reserved.
+// Copyright 2015-2026 Piperift. All Rights Reserved.
 
 #pragma once
 
@@ -15,8 +15,8 @@
  * Double Attribute
  * Used as a modular double depending on modifiers
  */
-USTRUCT(BlueprintType, meta = (HasNativeBreak = "Attributes.DoubleAttributesLibrary.Break",
-						   HasNativeMake = "Attributes.DoubleAttributesLibrary.Make"))
+USTRUCT(BlueprintType, meta = (HasNativeBreak = "/Script/Attributes.DoubleAttributesLibrary.Break",
+						   HasNativeMake = "/Script/Attributes.DoubleAttributesLibrary.Make"))
 struct ATTRIBUTES_API FDoubleAttr : public FBaseAttr
 {
 	GENERATED_BODY()

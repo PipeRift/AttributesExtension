@@ -20,12 +20,10 @@
 			"LoadingPhase": "PreDefault",
 			"WhitelistPlatforms": [
 				"Win64",
-				"Win32",
 				"Linux",
+				"Mac",
 				"Android",
-				"PS5",
-				"XboxOne",
-				"Switch"
+				"IOS"
 			]
 		},
 		{
@@ -34,12 +32,8 @@
 			"LoadingPhase": "PostEngineInit",
 			"WhitelistPlatforms": [
 				"Win64",
-				"Win32",
 				"Linux",
-				"Android",
-				"PS5",
-				"XboxOne",
-				"Switch"
+				"Mac"
 			]
 		},
 		{
@@ -48,9 +42,10 @@
 			"LoadingPhase" : "PreDefault",
 			"WhitelistPlatforms": [
 				"Win64",
-				"Win32",
 				"Linux",
-				"Mac"
+				"Mac",
+				"Android",
+				"IOS"
 			]
 		}
 	]

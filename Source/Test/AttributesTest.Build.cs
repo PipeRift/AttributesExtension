@@ -1,4 +1,4 @@
-// Copyright 2015-2020 Piperift. All Rights Reserved.
+// Copyright 2015-2026 Piperift. All Rights Reserved.
 
 using UnrealBuildTool;
 using System.IO;
@@ -10,19 +10,24 @@ namespace UnrealBuildTool.Rules
 		public AttributesTest(ReadOnlyTargetRules Target) : base(Target)
 		{
 			PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
-			IWYUSupport = IWYUSupport.Full;
 
 			PublicDependencyModuleNames.AddRange(new string[]
 			{
-				"Core",
-				"Engine",
-				"CoreUObject",
-				"Attributes"
+				"Core"
 			});
 
 			PrivateDependencyModuleNames.AddRange(new string[]
 			{
+				"Attributes",
+				"CoreUObject",
+				"Engine",
+				"EngineSettings"
 			});
+
+			if (Target.bBuildEditor == true)
+			{
+				PrivateDependencyModuleNames.Add("UnrealEd");
+			}
 		}
 	}
 }

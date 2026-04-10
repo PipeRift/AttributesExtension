@@ -1,4 +1,4 @@
-// Copyright 2015-2023 Piperift. All Rights Reserved.
+// Copyright 2015-2026 Piperift. All Rights Reserved.
 
 #pragma once
 
@@ -16,8 +16,8 @@
  * Used as a modular int32 depending on modifiers
  */
 USTRUCT(BlueprintType,
-	meta = (DisplayName = "Int32 Attr", HasNativeBreak = "Attributes.Int32AttributesLibrary.Break",
-		HasNativeMake = "Attributes.Int32AttributesLibrary.Make"))
+	meta = (DisplayName = "Int32 Attr", HasNativeBreak = "/Script/Attributes.Int32AttributesLibrary.Break",
+		HasNativeMake = "/Script/Attributes.Int32AttributesLibrary.Make"))
 struct ATTRIBUTES_API FInt32Attr : public FBaseAttr
 {
 	GENERATED_BODY()
