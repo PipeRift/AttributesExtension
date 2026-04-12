@@ -5,6 +5,7 @@
 #include "FloatAttr.h"
 
 #include <DetailWidgetRow.h>
+#include <Editor.h>
 #include <Editor/UnrealEdEngine.h>
 #include <IDetailChildrenBuilder.h>
 
