@@ -109,9 +109,13 @@ void SAttrCategoryPin::OnItemSelected(FString Value)
 
 	// If Category not found, Set default value
 	if (!NameValue.IsNone() && AllCategories.Contains(NameValue))
+	{
 		DefaultNameValue = NameValue;
+	}
 	else
+	{
 		DefaultNameValue = NAME_None;
+	}
 
 	ApplyDefaultValue();
 }

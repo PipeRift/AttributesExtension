@@ -11,7 +11,9 @@ const FAttrCategory FAttrCategory::NoCategory{NAME_None};
 bool FAttrCategory::IsNone() const
 {
 	if (Name.IsNone())
+	{
 		return true;
+	}
 
 	return !GetDefault<UAttributesSettings>()->GetCategories().Contains(Name);
 }

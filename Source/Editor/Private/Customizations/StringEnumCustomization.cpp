@@ -18,14 +18,12 @@ void FStringEnumCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> Struc
 		HeaderRow.NameContent()[StructPropertyHandle->CreatePropertyNameWidget()]
 			.ValueContent()
 			.MaxDesiredWidth(0.0f)
-			.MinDesiredWidth(
-				125.0f)[SAssignNew(ComboBox, SComboBox<TSharedPtr<FString>>)
-							.OptionsSource(&CachedItems)
-							.OnGenerateWidget(
-								this, &FStringEnumCustomization::HandleStringEnumComboBoxGenerateWidget)
-							.OnSelectionChanged(this, &FStringEnumCustomization::OnSelectionChanged)
-								//.InitiallySelectedItem(GetVariableFactionValue())
-								[SNew(STextBlock).Text(this, &FStringEnumCustomization::GetSelectedText)]];
+			.MinDesiredWidth(125.0f)[SAssignNew(ComboBox, SComboBox<TSharedPtr<FString>>)
+					.OptionsSource(&CachedItems)
+					.OnGenerateWidget(this, &FStringEnumCustomization::HandleStringEnumComboBoxGenerateWidget)
+					.OnSelectionChanged(this, &FStringEnumCustomization::OnSelectionChanged)
+						//.InitiallySelectedItem(GetVariableFactionValue())
+						[SNew(STextBlock).Text(this, &FStringEnumCustomization::GetSelectedText)]];
 	}
 }
 

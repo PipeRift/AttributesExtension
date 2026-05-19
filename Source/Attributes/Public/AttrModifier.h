@@ -159,19 +159,31 @@ inline bool FAttrModifier::NetSerialize(FArchive& Ar, UPackageMap* Map, bool& bO
 	}
 
 	if (Flags & 1 << 1)
+	{
 		Ar << Increment;
+	}
 	else
+	{
 		Increment = 0.f;
+	}
 
 	if (Flags & 1 << 2)
+	{
 		Ar << LastMultiplier;
+	}
 	else
+	{
 		LastMultiplier = 0.f;
+	}
 
 	if (Flags & 1 << 3)
+	{
 		Ar << BaseMultiplier;
+	}
 	else
+	{
 		BaseMultiplier = 0.f;
+	}
 
 	bOutSuccess = true;
 	return true;

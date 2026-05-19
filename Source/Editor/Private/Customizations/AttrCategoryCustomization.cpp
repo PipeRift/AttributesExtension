@@ -30,7 +30,9 @@ void FAttrCategoryCustomization::GetAllItems(TArray<FString>& Values) const
 {
 	const UAttributesSettings* Settings = GetDefault<UAttributesSettings>();
 	if (!Settings)
+	{
 		return;
+	}
 
 	for (const auto& Category : Settings->GetCategories())
 	{

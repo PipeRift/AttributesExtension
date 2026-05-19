@@ -16,13 +16,12 @@ TSharedRef<SWidget> SStringEnumPin::GetDefaultValueWidget()
 {
 	UpdateItems();
 
-	return SNew(SBox).MaxDesiredHeight(
-		20.f)[SAssignNew(ComboBox, SComboBox<TSharedPtr<FString>>)
-				  .ContentPadding(0.f)
-				  .OptionsSource(&CachedItems)
-				  .OnGenerateWidget(this, &SStringEnumPin::HandleStringEnumComboBoxGenerateWidget)
-				  .OnSelectionChanged(this, &SStringEnumPin::OnSelectionChanged)
-					  [SNew(STextBlock).Text(this, &SStringEnumPin::GetSelectedItem)]];
+	return SNew(SBox).MaxDesiredHeight(20.f)[SAssignNew(ComboBox, SComboBox<TSharedPtr<FString>>)
+			.ContentPadding(0.f)
+			.OptionsSource(&CachedItems)
+			.OnGenerateWidget(this, &SStringEnumPin::HandleStringEnumComboBoxGenerateWidget)
+			.OnSelectionChanged(this, &SStringEnumPin::OnSelectionChanged)[SNew(STextBlock)
+					.Text(this, &SStringEnumPin::GetSelectedItem)]];
 }
 
 TSharedRef<SWidget> SStringEnumPin::HandleStringEnumComboBoxGenerateWidget(TSharedPtr<FString> Item)
